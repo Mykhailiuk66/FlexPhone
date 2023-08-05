@@ -6,6 +6,7 @@ import { connectToDB } from "./config/connectToDB";
 import errorHandler from "./middleware/errorHandler";
 import authRouter from "./routes/auth";
 import productRouter from "./routes/products";
+import cartRouter from "./routes/cart";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/images", express.static(path.join("images")));
 
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
+app.use("/api/cart", cartRouter);
 
 app.use(errorHandler);
 
