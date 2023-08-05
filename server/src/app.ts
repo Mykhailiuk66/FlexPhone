@@ -1,7 +1,9 @@
 import express from "express";
+import path from "path";
 
 import "./config/loadEnv";
 import { connectToDB } from "./config/connectToDB";
+import errorHandler from "./middleware/errorHandler";
 import authRouter from "./routes/auth";
 import productRouter from "./routes/products";
 
@@ -11,8 +13,12 @@ connectToDB();
 
 app.use(express.json());
 
+app.use("/images", express.static(path.join("images")));
+
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT || 8000, () => {
 	console.log(
