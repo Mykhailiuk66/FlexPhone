@@ -15,12 +15,13 @@ const OrderSchema = new Schema(
 					type: Schema.Types.ObjectId,
 					ref: "Product.variants",
 				},
+				name: { type: String, required: true },
 				quantity: { type: Number, default: 1 },
 				price: { type: Number, required: true },
 			},
 		],
 		totalPrice: { type: Number, required: true },
-		status: { type: String, default: "pending" }, // 'pending', 'shipped', 'delivered', 'cancelled'
+		status: { type: String, default: "pending" }, // 'pending', 'paid', 'shipped', 'delivered', 'cancelled'
 		shippingAddress: {
 			firstName: String,
 			lastName: String,

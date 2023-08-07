@@ -10,7 +10,7 @@ export const getAllProducts = async (
 ) => {
 	try {
 		const currentPage = parseInt(req.query.page as string) || 1;
-		const perPage = 2;
+		const perPage = 9;
 		const { color, storage, ram, brand, minPrice, maxPrice } = req.query;
 
 		const query: any = {};

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const ProductVariantSchema = new Schema(
 	{
-		attributes: { type: Map, of: String },
+		attributes: { type: Map, of: Schema.Types.Mixed },
 		price: { type: Number, required: true },
 		inStock: { type: Number, default: 0 },
 		images: [String],

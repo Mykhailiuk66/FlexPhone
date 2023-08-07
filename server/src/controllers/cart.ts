@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import Cart from "../models/Cart";
 import { validationResult } from "express-validator";
+import { Product } from "../models/Product";
+import { emptyUserCart, getCartInfo } from "../utils/cartUtils";
+import HttpError from "../exeptions/HttpError";
 
 export const getCart = async (
 	req: Request,
@@ -8,12 +11,9 @@ export const getCart = async (
 	next: NextFunction
 ) => {
 	try {
-		const user = req.user;
-		const cart = await Cart.findOne({ userId: user._id });
+		const cart = await getCartInfo(req.user._id.toString());
 		if (!cart) {
-			return res.status(404).json({
-				message: "Cart not found",
-			});
+			throw new HttpError(404, "Cart not found");
 		}
 		res.status(200).json(cart);
 	} catch (err) {
@@ -36,6 +36,14 @@ export const updateCart = async (
 		const { productId, variantId } = req.body;
 		const quantity = Number(req.body.quantity);
 
+		const result = await Product.findOne({
+			_id: productId,
+			"variants._id": variantId,
+		});
+		if (!result) {
+			throw new HttpError(404, "Product not found");
+		}
+
 		let cart = await Cart.findOne({ userId: user._id });
 		if (!cart) {
 			cart = new Cart({
@@ -50,12 +58,9 @@ export const updateCart = async (
 		);
 
 		if (productIndex === -1) {
-			if (quantity <= 0) {
-				return res.status(404).json({
-					message: "Product not found in cart",
-				});
+			if (quantity > 0) {
+				cart.products.push({ productId, variantId, quantity });
 			}
-			cart.products.push({ productId, variantId, quantity });
 		} else {
 			if (quantity <= 0) {
 				cart.products.splice(productIndex, 1);
@@ -65,7 +70,10 @@ export const updateCart = async (
 		}
 
 		await cart.save();
-		res.status(200).json(cart);
+
+		res.status(200).json({
+			message: "Cart updated",
+		});
 	} catch (err) {
 		next(err);
 	}
@@ -77,17 +85,9 @@ export const emptyCart = async (
 	next: NextFunction
 ) => {
 	try {
-		const user = req.user;
-		const cart = await Cart.findOne({ userId: user._id });
-		if (!cart) {
-			return res.status(404).json({
-				message: "Cart not found",
-			});
-		}
+		const user_id = req.user._id.toString();
+		await emptyUserCart(user_id);
 
-		cart.products.splice(0, cart.products.length);
-
-		await cart.save();
 		res.status(200).json({
 			message: "Cart emptied",
 		});
