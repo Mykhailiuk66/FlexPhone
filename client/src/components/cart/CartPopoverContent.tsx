@@ -18,21 +18,21 @@ const CartPopoverContent = () => {
 			</CardHeader>
 			<CardContent className="p-6 grid gap-4 max-h-80 overflow-y-auto">
 				<CartPopoverItem
-					img="https://fastly.picsum.photos/id/440/200/200.jpg?hmac=KgupVeawJx9jCsstx3Ei3_HPctuUXH5wRAj9paxZ41U"
+					img="https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg"
 					price={999.99}
 					quantity={1}
 				>
 					iPhone 13 Pro
 				</CartPopoverItem>
 				<CartPopoverItem
-					img="https://fastly.picsum.photos/id/440/200/200.jpg?hmac=KgupVeawJx9jCsstx3Ei3_HPctuUXH5wRAj9paxZ41U"
+					img="https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg"
 					price={799.99}
 					quantity={1}
 				>
 					Samsung Galaxy S22
 				</CartPopoverItem>
 				<CartPopoverItem
-					img="https://fastly.picsum.photos/id/440/200/200.jpg?hmac=KgupVeawJx9jCsstx3Ei3_HPctuUXH5wRAj9paxZ41U"
+					img="https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp"
 					price={899.99}
 					quantity={2}
 				>
