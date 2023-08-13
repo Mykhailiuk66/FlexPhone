@@ -4,6 +4,7 @@ import Root from "./routes/Root";
 import Shop from "./routes/Shop";
 import Product from "./routes/Product";
 import Cart from "./routes/Cart";
+import Orders from "./routes/Orders";
 
 const router = createBrowserRouter([
 	{
@@ -18,14 +19,18 @@ const router = createBrowserRouter([
 				path: "/shop",
 				element: <Shop />,
 			},
-      {
-        path: "/shop/:id",
-        element: <Product />,
-      },
-      {
-        path: "/cart",
-        element: <Cart />,
-      }
+			{
+				path: "/shop/:id",
+				element: <Product />,
+			},
+			{
+				path: "/cart",
+				element: <Cart />,
+			},
+			{
+				path: "/orders",
+				element: <Orders />,
+			},
 		],
 	},
 ]);
