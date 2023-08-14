@@ -8,13 +8,13 @@ interface InputProps {
 	[props: string]: any;
 }
 
-const AuthFormField = ({ id, type, label, ...props }: InputProps) => {
+const FormField = ({ id, type, label, ...props }: InputProps) => {
 	return (
 		<div>
 			<Label htmlFor={id}>{label}</Label>
-			<Input id={id} type={type} className="mt-1" {...props} required />
+			<Input id={id} type={type} className="mt-1" required {...props} />
 		</div>
 	);
 };
 
-export default AuthFormField;
+export default FormField;

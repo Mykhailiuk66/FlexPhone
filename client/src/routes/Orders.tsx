@@ -65,7 +65,7 @@ const orders = [
 
 const Orders = () => {
 	return (
-		<div className="container mx-auto py-8 shadow-2xl h-screen">
+		<div className="container mx-auto py-8 shadow-2xl min-h-[93vh]">
 			<h1 className="text-3xl font-bold mb-6 ml-4">My Orders</h1>
 			<div>
 				<Accordion type="single" collapsible>

@@ -8,6 +8,7 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 
 import NavbarLink from "./NavbarLink";
 import CartPopover from "../cart/CartPopover";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = () => {
 	return (
@@ -63,6 +64,8 @@ const Navbar = () => {
 					<Button asChild>
 						<Link to={"/register"}>Register</Link>
 					</Button>
+
+					<UserDropdown />
 				</div>
 			</div>
 		</header>

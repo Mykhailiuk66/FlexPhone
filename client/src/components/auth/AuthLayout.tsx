@@ -1,4 +1,3 @@
-// src/components/AuthForm.js
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoPhonePortrait, IoPhonePortraitOutline } from "react-icons/io5";
