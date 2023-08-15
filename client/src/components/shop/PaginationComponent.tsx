@@ -12,12 +12,14 @@ interface PaginationComponentProps {
 	currentPage: number;
 	totalPages: number;
 	onPageChange: (page: number) => void;
+	className?: string;
 }
 
 const PaginationComponent = ({
 	currentPage,
 	totalPages,
 	onPageChange,
+	className,
 }: PaginationComponentProps) => {
 	const handlePageChange = (
 		event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -59,7 +61,7 @@ const PaginationComponent = ({
 	}, [currentPage, totalPages]);
 
 	return (
-		<Pagination>
+		<Pagination className={className}>
 			<PaginationContent>
 				{currentPage != 1 && (
 					<PaginationItem>

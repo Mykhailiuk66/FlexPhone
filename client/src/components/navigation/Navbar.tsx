@@ -30,13 +30,13 @@ const Navbar = () => {
 					className="hidden md:block h-6 bg-secondary-foreground"
 				/>
 				<span className="hidden md:flex gap-4">
-					<NavbarLink to="/shop?brand=samsung" brandName="samsung">
+					<NavbarLink to="/shop?brand=Samsung" brandName="samsung">
 						Samsung
 					</NavbarLink>
-					<NavbarLink to="/shop?brand=apple" brandName="apple">
+					<NavbarLink to="/shop?brand=Apple" brandName="apple">
 						Apple
 					</NavbarLink>
-					<NavbarLink to="/shop?brand=xiaomi" brandName="xiaomi">
+					<NavbarLink to="/shop?brand=Xiaomi" brandName="xiaomi">
 						Xiaomi
 					</NavbarLink>
 				</span>

@@ -4,27 +4,18 @@ import {
 } from "@/components/shop/FilterSection";
 import { cn } from "@/lib/utils";
 
-const ramOptions = ["4GB", "8GB", "12GB", "16GB"];
+const ramOptions = ["4 GB", "8 GB", "12 GB", "16 GB"];
 const brandOptions = ["Samsung", "Apple", "Xiaomi", "OnePlus"];
-const storageOptions = ["64GB", "128GB", "256GB", "512GB"];
+const storageOptions = ["64 GB", "128 GB", "256 GB", "512 GB"];
 const colorOptions = ["Black", "White", "Blue", "Red"];
 
 interface ShopFiltersProps {
 	className?: string;
-	onChange: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const ShopFilters = ({ className, onChange }: ShopFiltersProps) => {
-	const handleChange = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		onChange(event);
-	};
-
+const ShopFilters = ({ className }: ShopFiltersProps) => {
 	return (
-		<form
-			onChange={handleChange}
-			className={cn("space-y-8 pb-4 overflow-y-scroll", className)}
-		>
+		<div className={cn("space-y-8 pb-4 overflow-y-scroll", className)}>
 			<PriceRangeFilter />
 
 			<CheckboxFilter items={ramOptions} title="RAM" fieldName="ram" />
@@ -43,7 +34,7 @@ const ShopFilters = ({ className, onChange }: ShopFiltersProps) => {
 				title="Color"
 				fieldName="color"
 			/>
-		</form>
+		</div>
 	);
 };
 
