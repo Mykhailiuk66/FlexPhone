@@ -1,4 +1,4 @@
-import { ProductsResponseInterface } from "@/types";
+import { ProductInterface, ProductsResponseInterface } from "@/types";
 import { axiosClient } from "./axios";
 
 export const fetchProducts = async (
@@ -13,7 +13,7 @@ export const fetchProducts = async (
 
 export const fetchProduct = async (
 	productId: string
-): Promise<ProductsResponseInterface> => {
+): Promise<ProductInterface> => {
 	const response = await axiosClient.get(`/products/${productId}`);
 	return response.data;
 };

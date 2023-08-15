@@ -1,3 +1,4 @@
+import { baseURL } from "@/api/axios";
 import {
 	Carousel,
 	CarouselContent,
@@ -9,41 +10,38 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-const imgUrls = [
-	"https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-	"https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-	"https://www.abanista.com/wp-content/uploads/2022/08/15.jpg",
-	"https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-	"https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-	"https://www.abanista.com/wp-content/uploads/2022/08/15.jpg",
-];
+interface ProductImgCarouselInterface {
+	images: string[];
+}
 
-const ProductImgCarousel = () => {
+const ProductImgCarousel = ({ images }: ProductImgCarouselInterface) => {
 	const [selectedImage, setSelectedImage] = useState(
-		"https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg"
+		images.length > 0 ? images[0] : ""
 	);
 
 	return (
 		<div className="grid gap-4 justify-items-center">
 			<img
-				src={selectedImage}
+				src={`${baseURL}/${selectedImage}`}
 				alt="Product Image"
 				width={500}
 				height={500}
-				className="aspect-square w-full rounded-lg object-cover p-4"
+				className="aspect-square w-fill rounded-lg object-cover p-4"
 			/>
 			<Separator />
 			<div className="w-5/6">
-				<Carousel opts={{ loop: true, align: "start" }}>
+				<Carousel opts={{ loop: false, align: "start" }}>
 					<CarouselContent className="-ml-2 md:-ml-4">
-						{imgUrls.map((url, i) => (
+						{images.map((url, i) => (
 							<CarouselItem
 								key={i}
 								className="pl-2 md:pl-4 basis-1/4"
 							>
 								<img
-									src={url}
-									onClick={() => setSelectedImage(url)}
+									src={`${baseURL}/${url}`}
+									onClick={() => {
+										setSelectedImage(url);
+									}}
 									alt="Product Thumbnail"
 									width={100}
 									height={100}

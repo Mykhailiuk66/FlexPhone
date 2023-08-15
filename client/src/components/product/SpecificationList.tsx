@@ -1,7 +1,8 @@
+import { ProductCharacteristicsType } from "@/types";
 import SpecificationItem from "./SpecificationItem";
 
 export interface SpecificationsListProps {
-	specifications: Record<string, string>;
+	specifications: ProductCharacteristicsType;
 }
 
 const SpecificationsList = ({ specifications }: SpecificationsListProps) => {
