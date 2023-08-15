@@ -22,10 +22,10 @@ const ProductsList = ({ products }: ProductListProps) => {
 					return (
 						<ProductCard
 							key={product.variants[0]._id}
-							product_id={product._id}
-							variant_id={product.variants[0]._id}
+							productId={product._id}
+							variantId={product.variants[0]._id}
 							children={product.name}
-							attr_desc={formatAttributes(
+							attributesDesc={formatAttributes(
 								product.variants[0].attributes
 							)}
 							img={`${baseURL}/${prodImg}`}
