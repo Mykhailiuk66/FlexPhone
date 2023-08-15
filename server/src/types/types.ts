@@ -11,9 +11,14 @@ export interface ProductInterface {
 	updatedAt?: Date;
 }
 
+export type ProductVariantAttributesType = Record<
+	string,
+	string | Record<string, string>
+>;
+
 export interface ProductVariantInterface {
 	_id: ObjectId;
-	attributes: Record<string, string | Record<string, string>>;
+	attributes: ProductVariantAttributesType;
 	price: number;
 	inStock?: number;
 	images: string[];

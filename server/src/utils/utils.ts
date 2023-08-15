@@ -1,16 +1,17 @@
+import { ProductVariantAttributesType } from "../types/types";
+
 export const formatProductVariantName = (
 	name: string,
-	attributes: Record<string, string | Record<string, string>>
+	attributes: ProductVariantAttributesType
 ) => {
-	return (
-		`${name} ` +
-		`(${`${Object.entries(attributes)
-			.map(([k, v]) => {
-				if (k === "color" && typeof v === "object") {
-					return `${v.name}`;
-				}
-				return v;
-			})
-			.join(", ")}`})`
-	);
+	const formattedAttributes = Object.entries(attributes)
+		.map(([key, value]) => {
+			if (key === "color" && typeof value === "object") {
+				return value.name;
+			}
+			return value;
+		})
+		.join(", ");
+
+	return `${name} (${formattedAttributes})`;
 };
