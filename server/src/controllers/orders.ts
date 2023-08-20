@@ -54,6 +54,10 @@ export const handleCheckout = async (
 		const order = new Order({
 			userId: user_id,
 			products: extendedCart.map((p) => {
+				const productImg =
+					p.product.variants[0].images[0] ||
+					p.product.defaultImages[0] ||
+					"";
 				return {
 					productId: p.product._id,
 					variantId: p.product.variants[0]._id,
@@ -61,6 +65,7 @@ export const handleCheckout = async (
 						p.product.name,
 						p.product.variants[0].attributes
 					),
+					image: productImg,
 					quantity: p.quantity,
 					price: p.price,
 				};
