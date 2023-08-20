@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import ShopFilters from "@/components/shop/ShopFilters";
 import ProductsList from "@/components/shop/ProductsList";
 import MobileFiltersSheet from "@/components/shop/MobileFiltersSheet";
-import ProductListSkeleton from "@/components/shop/ProductListSkeleton";
+import ProductsListSkeleton from "@/components/shop/ProductsListSkeleton";
 import { fetchProducts } from "@/api/productsApi";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
@@ -46,7 +46,7 @@ const Shop = () => {
 			</div>
 
 			<div className="bg-muted/40 p-6">
-				{(isLoading || isError) && <ProductListSkeleton />}
+				{(isLoading || isError) && <ProductsListSkeleton />}
 
 				{data && data.totalProducts === 0 && (
 					<p className="text-muted-foreground text-3xl font-bold mt-20 content-center text-center">

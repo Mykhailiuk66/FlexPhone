@@ -23,8 +23,8 @@ export interface ProductInterface {
 	characteristics: ProductCharacteristicsType;
 	variants: ProductVariantInterface[];
 	defaultImages: string[];
-	createdAt?: Date;
-	updatedAt?: Date;
+	createdAt?: string;
+	updatedAt?: string;
 }
 
 export type ProductVariantAttributesType = Record<
@@ -38,6 +38,53 @@ export interface ProductVariantInterface {
 	price: number;
 	inStock?: number;
 	images: string[];
-	createdAt?: Date;
-	updatedAt?: Date;
+	createdAt?: string;
+	updatedAt?: string;
+}
+
+export interface UserInterface {
+	_id: string;
+	isAdmin: boolean;
+	firstName: string;
+	lastName: string;
+	exp: number;
+	iat: number;
+	jti: string;
+	token_type: string;
+}
+
+export interface LoginParams {
+	email: string;
+	password: string;
+}
+
+export interface RegisterParams {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+}
+
+export interface OrderedProductInterface {
+	productId: string;
+	variantId: string;
+	name: string;
+	image: string;
+	quantity: number;
+	price: number;
+}
+
+export interface OrderInterface {
+	_id: string;
+	userId: string;
+	products: OrderedProductInterface[];
+	totalPrice: number;
+	status: "pending" | "paid" | "shipped" | "delivered" | "cancelled";
+	shippingAddress: ShippingInfo;
+	createdAt?: string;
+	updatedAt?: string;
+}
+
+export interface AllOrdersInterface {
+	orders: OrderInterface[];
 }

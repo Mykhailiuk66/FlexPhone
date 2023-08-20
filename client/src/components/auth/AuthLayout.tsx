@@ -15,7 +15,7 @@ const AuthLayout = ({ children }: AuthFormProps) => {
 					<IoPhonePortrait className="hidden md:block h-40 w-40 text-primary" />
 				</Link>
 			</div>
-			<div className="mx-auto w-full max-w-md space-y-6 sm:border sm:p-8 sm:rounded-lg">
+			<div className="mx-auto mb-8 w-full max-w-md space-y-6 sm:border sm:p-8 sm:rounded-lg">
 				{children}
 			</div>
 		</div>

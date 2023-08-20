@@ -15,7 +15,9 @@ export const NavbarLink = ({
 	children,
 }: NavbarLinkProps) => {
 	const [searchParams] = useSearchParams();
-	const brand = searchParams.get("brand") || "all";
+
+	const selectedBrands = searchParams.getAll("brand");
+	const brand = selectedBrands.length === 1 ? selectedBrands[0] : "all";
 
 	const navlinkClasses = ({ isActive }: { isActive: boolean }): string => {
 		return cn(

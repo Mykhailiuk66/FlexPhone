@@ -1,7 +1,8 @@
+import { OrderInterface } from "@/types";
 import { Badge } from "../ui/badge";
 
 interface OrderTriggerContentProps {
-	order: any; // TODO: create order type
+	order: OrderInterface;
 }
 
 const OrderTriggerContent = ({ order }: OrderTriggerContentProps) => {
@@ -9,15 +10,15 @@ const OrderTriggerContent = ({ order }: OrderTriggerContentProps) => {
 		<div className="flex justify-between w-full mr-4">
 			<div className="text-start">
 				<div className="text-base font-medium">
-					{new Date(order.date).toLocaleDateString()}
+					{new Date(order.createdAt!).toLocaleString("en-GB")}
 				</div>
 				<div className="text-sm text-muted-foreground">
-					Order id: {order.id}
+					Order id: {order._id}
 				</div>
 			</div>
 			<div className="flex items-center gap-2">
 				<div className="font-medium mr-4">
-					${order.total.toFixed(2)}
+					${order.totalPrice.toFixed(2)}
 				</div>
 				<Badge
 					variant={
