@@ -1,36 +1,52 @@
 import Cart from "../models/Cart";
-import { CartProductInterface, ExtendedCartInterface } from "../types/types";
+import { CartItemInterface, ExtendedCartItemInterface } from "../types/types";
 import HttpError from "../exeptions/HttpError";
+import { formatProductVariantName } from "./utils";
 
-export const getCartInfo = async (
+export const getUserCartInfo = async (
 	user_id: string
-): Promise<ExtendedCartInterface[] | null> => {
+): Promise<ExtendedCartItemInterface[] | null> => {
 	const cart = await Cart.findOne({
 		userId: user_id,
 	})
-		.populate<{ products: CartProductInterface[] }>("products.productId")
+		.populate<{ items: CartItemInterface[] }>({
+			path: "items.productId",
+			select: "_id name variants defaultImages",
+		})
 		.lean();
 
 	if (!cart) {
 		return null;
 	}
 
-	const orderProducts: ExtendedCartInterface[] = [];
-	for (const product of cart.products) {
-		const variantId = product.variantId;
+	return getExtendedCartInfo(cart.items);
+};
 
-		const variant = product.productId.variants.find(
-			(variant) => variant._id.toString() === variantId.toString()
+export const getExtendedCartInfo = (
+	items: CartItemInterface[]
+): ExtendedCartItemInterface[] | null => {
+	const extendedCartInfo = items.map((item) => {
+		const variant = item.productId.variants.find(
+			(variant) => variant._id.toString() === item.variantId.toString()
 		);
+		const productImg =
+			variant?.images[0] || item.productId.defaultImages[0] || "";
 
-		orderProducts.push({
-			product: { ...product.productId, variants: [variant!] },
-			quantity: product.quantity,
-			price: variant!.price,
-		});
-	}
+		return {
+			cartItemId: item._id,
+			productId: item.productId._id,
+			variantId: item.variantId,
+			formattedName: formatProductVariantName(
+				item.productId.name,
+				variant?.attributes || {}
+			),
+			image: productImg,
+			quantity: item.quantity,
+			price: variant?.price || 0,
+		};
+	});
 
-	return orderProducts;
+	return extendedCartInfo;
 };
 
 export const emptyUserCart = async (user_id: string) => {
@@ -40,7 +56,7 @@ export const emptyUserCart = async (user_id: string) => {
 		throw new HttpError(404, "Product not found");
 	}
 
-	cart.products.splice(0, cart.products.length);
+	cart.items.splice(0, cart.items.length);
 
 	await cart.save();
 };

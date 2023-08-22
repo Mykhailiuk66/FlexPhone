@@ -26,14 +26,19 @@ export interface ProductVariantInterface {
 	updatedAt?: Date;
 }
 
-export interface CartProductInterface {
+export interface CartItemInterface {
+	_id: ObjectId | string;
 	productId: ProductInterface;
 	variantId: ObjectId;
 	quantity: number;
 }
 
-export interface ExtendedCartInterface {
-	product: ProductInterface;
+export interface ExtendedCartItemInterface {
+	cartItemId: ObjectId | string;
+	productId: ObjectId;
+	variantId: ObjectId;
+	formattedName: string;
+	image: string;
 	quantity: number;
 	price: number;
 }

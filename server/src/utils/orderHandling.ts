@@ -2,7 +2,7 @@ import { Response } from "express";
 import HttpError from "../exeptions/HttpError";
 import Order from "../models/Order";
 import { Product } from "../models/Product";
-import { ExtendedCartInterface } from "../types/types";
+import { ExtendedCartItemInterface } from "../types/types";
 import { formatProductVariantName } from "./utils";
 
 export const setOrderStatus = async (orderId: string, status: string) => {
@@ -17,23 +17,22 @@ export const setOrderStatus = async (orderId: string, status: string) => {
 };
 
 export const reserveProducts = async (
-	extendedCart: ExtendedCartInterface[]
+	extendedCart: ExtendedCartItemInterface[]
 ) => {
 	for (const p of extendedCart) {
 		const product = await Product.findOne({
-			_id: p.product._id,
-			"variants._id": p.product.variants[0]._id,
+			_id: p.productId,
+			"variants._id": p.variantId,
 		});
 		if (!product) {
 			throw new HttpError(
 				400,
-				`Product (${p.product._id}) or variant (${p.product.variants[0]._id}) not found`
+				`Product (${p.productId}) or variant (${p.variantId}) not found`
 			);
 		}
 
 		const variant = product.variants.find(
-			(variant) =>
-				variant._id!.toString() === p.product.variants[0]._id.toString()
+			(variant) => variant._id!.toString() === p.variantId.toString()
 		);
 
 		if (variant && variant.inStock - p.quantity < 0) {

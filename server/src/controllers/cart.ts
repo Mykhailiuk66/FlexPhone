@@ -2,8 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import Cart from "../models/Cart";
 import { validationResult } from "express-validator";
 import { Product } from "../models/Product";
-import { emptyUserCart, getCartInfo } from "../utils/cartUtils";
+import {
+	emptyUserCart,
+	getExtendedCartInfo,
+	getUserCartInfo,
+} from "../utils/cartUtils";
 import HttpError from "../exeptions/HttpError";
+import { CartItemInterface } from "../types/types";
 
 export const getCart = async (
 	req: Request,
@@ -11,11 +16,11 @@ export const getCart = async (
 	next: NextFunction
 ) => {
 	try {
-		const cart = await getCartInfo(req.user._id.toString());
+		const cart = await getUserCartInfo(req.user._id.toString());
 		if (!cart) {
 			throw new HttpError(404, "Cart not found");
 		}
-		res.status(200).json(cart);
+		res.status(200).json({ cart });
 	} catch (err) {
 		next(err);
 	}
@@ -51,7 +56,7 @@ export const updateCart = async (
 			});
 		}
 
-		const productIndex = cart.products.findIndex(
+		const productIndex = cart.items.findIndex(
 			(p: any) =>
 				p.productId.toString() === productId &&
 				p.variantId.toString() === variantId
@@ -59,13 +64,13 @@ export const updateCart = async (
 
 		if (productIndex === -1) {
 			if (quantity > 0) {
-				cart.products.push({ productId, variantId, quantity });
+				cart.items.push({ productId, variantId, quantity });
 			}
 		} else {
 			if (quantity <= 0) {
-				cart.products.splice(productIndex, 1);
+				cart.items.splice(productIndex, 1);
 			} else {
-				cart.products[productIndex].quantity = quantity;
+				cart.items[productIndex].quantity = quantity;
 			}
 		}
 
