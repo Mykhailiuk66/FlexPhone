@@ -6,10 +6,31 @@ import { body } from "express-validator";
 const router = Router();
 
 router.get("/", isAuth, cartControllers.getCart);
+router.put(
+	"/",
+	isAuth,
+	[body("cart").isArray().withMessage("Invalid cart format")],
+	cartControllers.updateCart
+);
 router.delete("/", isAuth, cartControllers.emptyCart);
 
 router.put(
-	"/",
+	"/add",
+	isAuth,
+	[
+		body("productId")
+			.trim()
+			.notEmpty()
+			.withMessage("Product ID is required"),
+		body("variantId")
+			.trim()
+			.notEmpty()
+			.withMessage("Variant ID is required"),
+	],
+	cartControllers.addCartItem
+);
+router.put(
+	"/update",
 	isAuth,
 	[
 		body("productId")
@@ -27,8 +48,7 @@ router.put(
 			.notEmpty()
 			.withMessage("Quantity is required"),
 	],
-	cartControllers.updateCart
+	cartControllers.updateCartItem
 );
-
 
 export default router;

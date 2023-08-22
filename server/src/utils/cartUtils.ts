@@ -49,11 +49,23 @@ export const getExtendedCartInfo = (
 	return extendedCartInfo;
 };
 
+export const getOrCreateCart = async (user_id: string) => {
+	const cart = await Cart.findOne({ userId: user_id });
+
+	if (!cart) {
+		return new Cart({
+			userId: user_id,
+		});
+	}
+
+	return cart;
+};
+
 export const emptyUserCart = async (user_id: string) => {
 	const cart = await Cart.findOne({ userId: user_id });
 
 	if (!cart) {
-		throw new HttpError(404, "Product not found");
+		throw new HttpError(404, "Cart not found");
 	}
 
 	cart.items.splice(0, cart.items.length);
