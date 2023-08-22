@@ -1,4 +1,4 @@
-import { baseURL } from "@/api/axios";
+import { baseURL } from "@/api/http";
 import {
 	Carousel,
 	CarouselContent,

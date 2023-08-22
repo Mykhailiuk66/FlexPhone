@@ -89,6 +89,12 @@ export interface OrdersResponseInterface {
 	orders: OrderInterface[];
 }
 
+export interface CartItemInterface {
+	productId: string;
+	variantId: string;
+	quantity: number;
+}
+
 export interface ExtendedCartItemInterface {
 	cartItemId: string;
 	productId: string;

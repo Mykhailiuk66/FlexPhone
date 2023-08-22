@@ -13,7 +13,11 @@ import { useEffect } from "react";
 const Shop = () => {
 	const { toast } = useToast();
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { data, isLoading, isError } = useQuery({
+	const {
+		data: products,
+		isLoading,
+		isError,
+	} = useQuery({
 		queryKey: ["products", searchParams.toString()],
 		queryFn: () => fetchProducts(searchParams),
 		staleTime: 1000 * 60,
@@ -48,18 +52,18 @@ const Shop = () => {
 			<div className="bg-muted/40 p-6">
 				{(isLoading || isError) && <ProductsListSkeleton />}
 
-				{data && data.totalProducts === 0 && (
+				{products && products.totalProducts === 0 && (
 					<p className="text-muted-foreground text-3xl font-bold mt-20 content-center text-center">
 						No products found
 					</p>
 				)}
 
-				{data && <ProductsList products={data.products} />}
+				{products && <ProductsList products={products.products} />}
 
-				{data && data.totalPages > 0 && (
+				{products && products.totalPages > 0 && (
 					<PaginationComponent
-						currentPage={data.currentPage}
-						totalPages={data.totalPages}
+						currentPage={products.currentPage}
+						totalPages={products.totalPages}
 						onPageChange={handlePageChange}
 						className="mt-6"
 					/>

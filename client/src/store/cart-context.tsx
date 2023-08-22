@@ -13,7 +13,12 @@ import {
 	addItemToCart,
 	updateItemInCart,
 	removeItemFromCart,
-} from "../utils/cart-utils";
+} from "../utils/cartUtils";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import * as cartApi from "@/api/cartApi";
+import { useToast } from "@/components/ui/use-toast";
+import { AxiosError } from "axios";
+import { queryClient } from "@/api/http";
 
 export const CartContext = createContext<CartContextInterface>(
 	{} as CartContextInterface
@@ -24,7 +29,9 @@ interface CartContextProviderProps {
 }
 
 interface CartContextInterface {
-	cart: ExtendedCartItemInterface[];
+	cart: ExtendedCartItemInterface[] | null;
+	isLoading: boolean;
+	isError: boolean;
 	addCartItem: (product: ProductInterface, variantId: string) => void;
 	updateCart: (
 		productId: string,
@@ -38,15 +45,64 @@ interface CartContextInterface {
 export default function CartContextProvider({
 	children,
 }: CartContextProviderProps) {
-	const [cart, setCart] = useState<ExtendedCartItemInterface[]>([]);
+	const { toast } = useToast();
+	const [cart, setCart] = useState<ExtendedCartItemInterface[] | null>(null);
 	const { user } = useContext(AuthContext);
+	const { data, isLoading, isError } = useQuery({
+		queryKey: ["cart"],
+		queryFn: () => cartApi.fetchCart(),
+		enabled: !!user,
+	});
+
+	const { mutateAsync: updateCartMutation } = useMutation({
+		mutationFn: cartApi.updateCart,
+		onError: (error: AxiosError) => {
+			toast({
+				title: "Error",
+				description: error.message,
+				variant: "destructive",
+			});
+		},
+	});
 
 	useEffect(() => {
 		if (!user) {
-			const localCart = getLocalCart();
-			setCart(localCart);
+			queryClient.removeQueries({ queryKey: ["cart"] });
+			setCart(null);
 		}
 	}, [user]);
+
+	useEffect(() => {
+		const localCart = getLocalCart();
+		if (!user && !cart) {
+			setCart(localCart);
+		} else if (user) {
+			if (localCart && localCart.length > 0) {
+				setCart(localCart);
+				localStorage.removeItem("cart");
+			} else if (data && (!cart || cart?.length === 0)) {
+				setCart(data.cart);
+			}
+		}
+	}, [cart, data, user]);
+
+	useEffect(() => {
+		if (user && cart && cart.length > 0) {
+			const updateCartTimeout = setTimeout(async () => {
+				const formattedCart = cart.map((item) => {
+					return {
+						productId: item.productId,
+						variantId: item.variantId,
+						quantity: item.quantity,
+					};
+				});
+
+				await updateCartMutation(formattedCart);
+			}, 1000);
+
+			return () => clearTimeout(updateCartTimeout);
+		}
+	}, [cart, updateCartMutation, user]);
 
 	const updateCart = (
 		productId: string,
@@ -65,6 +121,14 @@ export default function CartContextProvider({
 			);
 			saveCartToLocal(updatedCart);
 			setCart(updatedCart);
+		} else if (data !== undefined) {
+			const updatedCart = updateItemInCart(
+				JSON.parse(JSON.stringify(cart)),
+				productId,
+				variantId,
+				quantity
+			);
+			setCart(updatedCart);
 		}
 	};
 
@@ -73,6 +137,13 @@ export default function CartContextProvider({
 			const localCart = getLocalCart();
 			const updatedCart = addItemToCart(localCart, product, variantId);
 			saveCartToLocal(updatedCart);
+			setCart(updatedCart);
+		} else if (data !== undefined) {
+			const updatedCart = addItemToCart(
+				JSON.parse(JSON.stringify(cart)),
+				product,
+				variantId
+			);
 			setCart(updatedCart);
 		}
 	};
@@ -87,11 +158,20 @@ export default function CartContextProvider({
 			);
 			saveCartToLocal(updatedCart);
 			setCart(updatedCart);
+		} else if (data !== undefined) {
+			const updatedCart = removeItemFromCart(
+				JSON.parse(JSON.stringify(cart)),
+				productId,
+				variantId
+			);
+			setCart(updatedCart);
 		}
 	};
 
 	const contextValue = {
 		cart,
+		isLoading,
+		isError,
 		addCartItem,
 		updateCart,
 		removeCartItem,

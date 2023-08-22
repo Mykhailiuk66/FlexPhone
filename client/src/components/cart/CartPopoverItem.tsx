@@ -1,4 +1,4 @@
-import { baseURL } from "@/api/axios";
+import { baseURL } from "@/api/http";
 import { Input } from "@/components/ui/input";
 import { CartContext } from "@/store/cart-context";
 import { useContext } from "react";

@@ -6,13 +6,27 @@ import {
 import { Arrow } from "@radix-ui/react-popover";
 import CartPopoverContent from "../cart/CartPopoverContent";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "@/store/cart-context";
+import { toast } from "../ui/use-toast";
+import CartPopoverSkeleton from "./CartPopoverSkeleton";
 
 const CartPopover = () => {
-	const { cart } = useContext(CartContext);
+	const { cart, isLoading, isError } = useContext(CartContext);
 
-	const cartQty = cart.reduce((acc, item) => acc + item.quantity, 0);
+	const cartQty = cart
+		? cart.reduce((acc, item) => acc + item.quantity, 0)
+		: 0;
+
+	useEffect(() => {
+		if (isError) {
+			toast({
+				variant: "destructive",
+				duration: 1000 * 60,
+				description: "Something went wrong. Please try again later.",
+			});
+		}
+	}, [isError]);
 
 	return (
 		<Popover>
@@ -26,7 +40,8 @@ const CartPopover = () => {
 			</PopoverTrigger>
 			<PopoverContent className="w-[26rem] p-1">
 				<Arrow />
-				<CartPopoverContent />
+				{(isLoading || isError) && <CartPopoverSkeleton />}
+				{!isLoading && !isError && <CartPopoverContent />}
 			</PopoverContent>
 		</Popover>
 	);
