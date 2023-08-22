@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import CheckoutOrderSummary from "@/components/checkout/CheckoutOrderSummary";
 import ShippingForm from "@/components/checkout/ShippingForm";
 import { ShippingInfo } from "@/types";
+import { CartContext } from "@/store/cart-context";
 
-export default function Component() {
+const Checkout = () => {
+	const navigate = useNavigate();
+	const { cart } = useContext(CartContext);
 	const [shippingInfo, setShippingInfo] = useState({
 		firstName: "",
 		lastName: "",
@@ -14,6 +18,10 @@ export default function Component() {
 		country: "",
 		postalCode: "",
 	});
+
+	if (cart.length === 0) {
+		return navigate("/shop");
+	}
 
 	const handleFormChange = (shippingInfo: ShippingInfo) => {
 		setShippingInfo({ ...shippingInfo });
@@ -48,4 +56,6 @@ export default function Component() {
 			</div>
 		</>
 	);
-}
+};
+
+export default Checkout;

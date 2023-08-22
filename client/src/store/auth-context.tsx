@@ -6,15 +6,15 @@ import { LoginParams, RegisterParams, UserInterface } from "@/types";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 
-export const AuthContext = createContext<AuthContextType>(
-	{} as AuthContextType
+export const AuthContext = createContext<AuthContextInterface>(
+	{} as AuthContextInterface
 );
 
 interface AuthContextProviderProps {
 	children: ReactNode;
 }
 
-interface AuthContextType {
+interface AuthContextInterface {
 	user: UserInterface | null;
 	loginErrorMsg: string | null;
 	registerErrorMsgs: Record<string, string> | null;
@@ -109,7 +109,18 @@ export default function AuthContextProvider({
 		return registerMutation({ firstName, lastName, email, password });
 	};
 
-	const contextValue: AuthContextType = {
+	useEffect(() => {
+		const authToken = localStorage.getItem("authToken");
+		if (!authToken) return;
+		const decodedToken = jwtDecode(authToken) as UserInterface;
+		const currentDate = new Date();
+		const isExpired = decodedToken.exp * 1000 < currentDate.getTime();
+		if (!isExpired) {
+			setUser(decodedToken);
+		}
+	}, []);
+
+	const contextValue: AuthContextInterface = {
 		user,
 		loginErrorMsg,
 		registerErrorMsgs,
@@ -121,17 +132,6 @@ export default function AuthContextProvider({
 		isPending: isPendingLogin || isPendingRegister,
 		isError: loginError || registerError,
 	};
-
-	useEffect(() => {
-		const authToken = localStorage.getItem("authToken");
-		if (!authToken) return;
-		const decodedToken = jwtDecode(authToken) as UserInterface;
-		const currentDate = new Date();
-		const isExpired = decodedToken.exp * 1000 < currentDate.getTime();
-		if (!isExpired) {
-			setUser(decodedToken);
-		}
-	}, []);
 
 	return (
 		<AuthContext.Provider value={contextValue}>

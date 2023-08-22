@@ -2,32 +2,49 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { FiTrash } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "@/store/cart-context";
+import { baseURL } from "@/api/axios";
 
 interface CartItemProps {
-	id: number;
-	img: string;
+	productId: string;
+	variantId: string;
+	image: string;
 	title: string;
 	price: number;
 	quantity: number;
-	onQuantityChange: (id: number, value: string) => void;
-	onRemove: (id: number) => void;
 }
 
 const CartItem = ({
-	id,
-	img,
+	productId,
+	variantId,
+	image,
 	title,
 	price,
 	quantity,
-	onQuantityChange,
-	onRemove,
 }: CartItemProps) => {
+	const { updateCart, removeCartItem } = useContext(CartContext);
+
+	const handleQuantityChange = (
+		productId: string,
+		variantId: string,
+		quantity: number | string
+	) => {
+		const quantityNumber = Number(quantity);
+		if (quantityNumber < 1 || isNaN(quantityNumber)) return;
+
+		updateCart(productId, variantId, quantityNumber);
+	};
+	const handleRemoveFromCart = (productId: string, variantId: string) => {
+		removeCartItem(productId, variantId);
+	};
+
 	return (
 		<div className="border rounded-lg shadow-lg flex items-center justify-between bg-background p-4">
 			<div className="flex items-center gap-4">
-				<Link to={`/shop/${id}`}>
+				<Link to={`/shop/${productId}/${variantId}`}>
 					<img
-						src={img}
+						src={`${baseURL}/${image}`}
 						alt={title}
 						width={80}
 						height={80}
@@ -39,7 +56,7 @@ const CartItem = ({
 					/>
 				</Link>
 				<div>
-					<Link to={`/shop/${id}`}>
+					<Link to={`/shop/${productId}/${variantId}`}>
 						<h3 className="text-lg font-medium">{title}</h3>
 					</Link>
 					<p className="text-muted-foreground">${price.toFixed(2)}</p>
@@ -50,13 +67,19 @@ const CartItem = ({
 					type="number"
 					min={1}
 					value={quantity}
-					onChange={(e) => onQuantityChange(id, e.target.value)}
+					onChange={(e) =>
+						handleQuantityChange(
+							productId,
+							variantId,
+							e.target.value
+						)
+					}
 					className={"text-center w-12 sm:w-20"}
 				/>
 				<Button
 					variant="ghost"
 					size="icon"
-					onClick={() => onRemove(id)}
+					onClick={() => handleRemoveFromCart(productId, variantId)}
 				>
 					<FiTrash className="w-5 h-5 text-muted-foreground" />
 				</Button>

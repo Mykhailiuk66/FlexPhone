@@ -12,3 +12,12 @@ export const formatAttributes = (attributes: ProductVariantAttributesType) => {
 
 	return formattedAttributes;
 };
+
+export const formatProductVariantName = (
+	name: string,
+	attributes: ProductVariantAttributesType
+) => {
+	const formattedAttributes = formatAttributes(attributes);
+
+	return `${name} (${formattedAttributes})`;
+};

@@ -58,7 +58,7 @@ const Navbar = () => {
 				</Link>
 
 				<span className="hidden md:block mr-4">
-					<CartPopover cartQty={3} />
+					<CartPopover />
 				</span>
 
 				<div className="flex items-center gap-2">

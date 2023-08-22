@@ -9,44 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import CartPopoverItem from "./CartPopoverItem";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-
-const cartItems = [
-	{
-		id: 1,
-		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-		title: "iPhone 14 Pro",
-		price: 999.99,
-		quantity: 1,
-	},
-	{
-		id: 2,
-		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-		title: "Samsung Galaxy S23 Ultra",
-		price: 1199.99,
-		quantity: 1,
-	},
-	{
-		id: 3,
-		image: "https://www.abanista.com/wp-content/uploads/2022/08/15.jpg",
-		title: "Google Pixel 7 Pro",
-		price: 899.99,
-		quantity: 1,
-	},
-];
+import { useContext } from "react";
+import { CartContext } from "@/store/cart-context";
 
 const CartPopoverContent = () => {
-	const [cart, setCart] = useState(cartItems);
-	const handleQuantityChange = (id: number, value: string) => {
-		setCart(
-			cart.map((item) =>
-				item.id === id ? { ...item, quantity: parseInt(value) } : item
-			)
-		);
-	};
-	const handleRemoveFromCart = (id: number) => {
-		setCart(cart.filter((item) => item.id !== id));
-	};
+	const { cart } = useContext(CartContext);
+
 	const totalPrice = cart.reduce(
 		(total, item) =>
 			total +
@@ -65,14 +33,13 @@ const CartPopoverContent = () => {
 				{cart.length > 0 &&
 					cart.map((item) => (
 						<CartPopoverItem
-							key={item.id}
-							id={item.id}
-							img={item.image}
-							title={item.title}
+							key={item.cartItemId}
+							productId={item.productId}
+							variantId={item.variantId}
+							image={item.image}
+							title={item.formattedName}
 							price={item.price}
 							quantity={item.quantity}
-							onQuantityChange={handleQuantityChange}
-							onRemove={handleRemoveFromCart}
 						/>
 					))}
 

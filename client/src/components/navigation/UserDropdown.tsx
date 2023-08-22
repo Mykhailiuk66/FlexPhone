@@ -38,7 +38,6 @@ const UserDropdown = () => {
 					onClick={logout}
 				>
 					Logout
-					{/* <Button variant="destructive" onClick={logout}>Logout</Button> */}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

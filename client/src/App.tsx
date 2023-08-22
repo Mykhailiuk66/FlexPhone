@@ -9,7 +9,6 @@ import Orders from "./routes/Orders";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Checkout from "./routes/Checkout";
-import AuthContextProvider from "./store/auth-context";
 
 const router = createBrowserRouter([
 	{

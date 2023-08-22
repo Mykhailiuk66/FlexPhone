@@ -1,19 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { CartContext } from "@/store/cart-context";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-interface OrderSummaryProps {
-	cart: {
-		id: number;
-		image: string;
-		title: string;
-		price: number;
-		quantity: number;
-	}[];
-	totalPrice: number;
-}
+const CartOrderSummary = () => {
+	const { cart } = useContext(CartContext);
 
-const CartOrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
+	const totalPrice = cart.reduce(
+		(total, item) => total + item.price * item.quantity,
+		0
+	);
+
 	return (
 		<div className="border shadow-sm w-full h-full px-6 pt-7">
 			<div className="space-y-4 sticky top-24 pb-8">
@@ -22,11 +20,11 @@ const CartOrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
 				<div className="space-y-2 pt-6">
 					{cart.map((item) => (
 						<div
-							key={item.id}
+							key={item.cartItemId}
 							className="flex justify-between items-center gap-x-2.5"
 						>
 							<div className="flex items-center gap-4 font-medium">
-								<p>{item.title}</p>
+								<p>{item.formattedName}</p>
 							</div>
 							<p>{item.quantity}x</p>
 						</div>
@@ -48,11 +46,13 @@ const CartOrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
 					</p>
 				</div>
 
-				<div className="pt-6">
-					<Button size="lg" className="w-full" asChild>
-						<Link to="/checkout">Proceed to Checkout</Link>
-					</Button>
-				</div>
+				{cart.length > 0 && (
+					<div className="pt-6">
+						<Button size="lg" className="w-full" asChild>
+							<Link to="/checkout">Proceed to Checkout</Link>
+						</Button>
+					</div>
+				)}
 			</div>
 		</div>
 	);

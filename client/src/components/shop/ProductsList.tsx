@@ -1,6 +1,4 @@
-import { formatAttributes } from "@/utils/utils";
 import ProductCard from "./ProductCard";
-import { baseURL } from "@/api/axios";
 import { ProductInterface } from "@/types";
 
 interface ProductListProps {
@@ -12,21 +10,10 @@ const ProductsList = ({ products }: ProductListProps) => {
 		<div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
 			{products.length > 0 &&
 				products.map((product) => {
-					const prodImg =
-						product.variants[0].images[0] ||
-						product.defaultImages[0] ||
-						"";
 					return (
 						<ProductCard
 							key={product.variants[0]._id}
-							productId={product._id}
-							variantId={product.variants[0]._id}
-							children={product.name}
-							attributesDesc={formatAttributes(
-								product.variants[0].attributes
-							)}
-							img={`${baseURL}/${prodImg}`}
-							price={product.variants[0].price}
+							product={product}
 						/>
 					);
 				})}

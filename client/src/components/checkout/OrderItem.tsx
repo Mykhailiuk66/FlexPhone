@@ -1,17 +1,19 @@
+import { baseURL } from "@/api/axios";
+
 interface OrderItemProps {
-	item: any;
+	image: string;
+	title: string;
+	price: number;
+	quantity: number;
 }
 
-const OrderItem = ({ item }: OrderItemProps) => {
+const OrderItem = ({ image, title, price, quantity }: OrderItemProps) => {
 	return (
-		<div
-			key={item.id}
-			className="flex items-center justify-between bg-muted rounded-lg p-2"
-		>
+		<div className="flex items-center justify-between bg-muted rounded-lg p-2">
 			<div className="flex items-center gap-4">
 				<img
-					src={item.image}
-					alt={item.title}
+					src={`${baseURL}/${image}`}
+					alt={title}
 					width={50}
 					height={50}
 					className="rounded-md"
@@ -21,9 +23,9 @@ const OrderItem = ({ item }: OrderItemProps) => {
 					}}
 				/>
 				<div>
-					<h3 className="text-base font-medium">{item.title}</h3>
+					<h3 className="text-base font-medium">{title}</h3>
 					<p className="text-muted-foreground">
-						${item.price.toFixed(2)} x {item.quantity}
+						${price.toFixed(2)} x {quantity}
 					</p>
 				</div>
 			</div>
