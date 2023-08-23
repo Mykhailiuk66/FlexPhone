@@ -34,7 +34,7 @@ const Shop = () => {
 		if (isError) {
 			toast({
 				variant: "destructive",
-				duration: 1000 * 60,
+				duration: 1000 * 5,
 				description: "Something went wrong. Please try again later.",
 			});
 		}

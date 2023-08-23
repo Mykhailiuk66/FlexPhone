@@ -108,3 +108,21 @@ export interface ExtendedCartItemInterface {
 export interface CartResponseInterface {
 	cart: ExtendedCartItemInterface[];
 }
+
+export interface ShippingInfoInterface {
+	firstName: string;
+	lastName: string;
+	address: string;
+	city: string;
+	country: string;
+	postalCode: string;
+}
+
+export interface UpdateCartResponseInterface {
+	message: string;
+}
+
+export interface CheckoutResponseInterface {
+	url?: string;
+  message?: string;
+}

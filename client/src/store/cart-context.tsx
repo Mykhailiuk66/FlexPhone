@@ -40,6 +40,7 @@ interface CartContextInterface {
 		isIncrement?: boolean
 	) => void;
 	removeCartItem: (productId: string, variantId: string) => void;
+	emptyCart: () => void;
 }
 
 export default function CartContextProvider({
@@ -110,6 +111,7 @@ export default function CartContextProvider({
 		quantity: number
 	) => {
 		if (quantity <= 0) return;
+		// if (quantity > 10) return;
 
 		if (!user) {
 			const localCart = getLocalCart();
@@ -168,6 +170,10 @@ export default function CartContextProvider({
 		}
 	};
 
+	const emptyCart = async () => {
+		setCart([]);
+	};
+
 	const contextValue = {
 		cart,
 		isLoading,
@@ -175,6 +181,7 @@ export default function CartContextProvider({
 		addCartItem,
 		updateCart,
 		removeCartItem,
+		emptyCart,
 	};
 
 	return (
