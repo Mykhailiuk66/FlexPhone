@@ -6,10 +6,11 @@ export const formatProductVariantName = (
 ) => {
 	const formattedAttributes = Object.entries(attributes)
 		.map(([key, value]) => {
-			if (key === "color" && typeof value === "object") {
-				return value.name;
+			if (key === "color") {
+				return typeof value === "string" ? value : value.name;
+			} else if (typeof value === "string") {
+				return value;
 			}
-			return value;
 		})
 		.join(", ");
 
