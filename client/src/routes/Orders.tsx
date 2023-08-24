@@ -25,7 +25,7 @@ const Orders = () => {
 	}, [isError]);
 
 	return (
-		<div className="container mx-auto py-8 shadow-2xl min-h-[93vh]">
+		<div className="container px-4 sm:px-8 mx-auto py-8 shadow-2xl min-h-[93vh]">
 			<h1 className="text-3xl font-bold mb-6 ml-4">My Orders</h1>
 
 			{isLoading && <OrdersSkeleton />}

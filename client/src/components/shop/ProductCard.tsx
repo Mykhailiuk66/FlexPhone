@@ -23,8 +23,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	};
 
 	return (
-		<div className="rounded-lg bg-background shadow-xl flex flex-col justify-between hover:scale-110 transition duration-500 cursor-pointer object-cover h-auto">
-			<Link to={`${product._id}/${variant._id}`}>
+		<div className="rounded-lg bg-background shadow-xl flex flex-col justify-between sm:hover:scale-110 transition duration-500 cursor-pointer object-cover h-auto">
+			<Link to={`/shop/${product._id}/${variant._id}`}>
 				<img
 					src={`${baseURL}/${prodImg}`}
 					alt="Product Image"
@@ -34,8 +34,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
 				/>
 			</Link>
 
-			<div className="p-4 flex-1">
-				<Link to={`${product._id}/${variant._id}`}>
+			<div className="pt-1 px-2 sm:p-4 flex-1">
+				<Link to={`/shop/${product._id}/${variant._id}`}>
 					<h3 className="text-lg font-semibold line-clamp-2">
 						{product.name}
 					</h3>
@@ -44,9 +44,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
 					{formatAttributes(variant.attributes)}
 				</p>
 			</div>
-			<div className="p-4 mt-auto flex items-center justify-between">
+			<div className="pt-2 px-3 sm:px-4 pb-2 sm:pb-4 sm:pt-4 gap-1 mt-auto flex  items-center justify-between">
 				<span className="text-lg font-semibold">${variant.price}</span>
-				<Button variant="default" size="sm" onClick={handleAddToCart}>
+				<Button
+					className="self-stretch py-5 sm:py-0"
+					variant="default"
+					size="sm"
+					onClick={handleAddToCart}
+				>
 					<RiShoppingCart2Line className="h-5 w-6" />
 				</Button>
 			</div>

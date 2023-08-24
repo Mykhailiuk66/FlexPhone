@@ -48,7 +48,7 @@ const CartItem = ({
 						alt={title}
 						width={80}
 						height={80}
-						className="rounded-md"
+						className="rounded-md min-w-16"
 						style={{
 							aspectRatio: "80/80",
 							objectFit: "cover",
@@ -57,16 +57,15 @@ const CartItem = ({
 				</Link>
 				<div>
 					<Link to={`/shop/${productId}/${variantId}`}>
-						<h3 className="text-lg font-medium">{title}</h3>
+						<h3 className="text-lg font-medium ">{title}</h3>
 					</Link>
 					<p className="text-muted-foreground">${price.toFixed(2)}</p>
 				</div>
 			</div>
-			<div className="flex items-center gap-1 sm:gap-4">
+			<div className="flex items-center gap-1 sm:gap-4 ml-2">
 				<Input
 					type="number"
-					min={1}
-					value={quantity}
+          defaultValue={quantity}
 					onChange={(e) =>
 						handleQuantityChange(
 							productId,
@@ -74,7 +73,7 @@ const CartItem = ({
 							e.target.value
 						)
 					}
-					className={"text-center w-12 sm:w-20"}
+					className={"text-center w-12 md:w-20"}
 				/>
 				<Button
 					variant="ghost"

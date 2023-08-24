@@ -7,7 +7,7 @@ interface ProductListProps {
 
 const ProductsList = ({ products }: ProductListProps) => {
 	return (
-		<div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+		<div className="grid grid-cols-2 gap-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
 			{products.length > 0 &&
 				products.map((product) => {
 					return (

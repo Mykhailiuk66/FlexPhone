@@ -21,8 +21,8 @@ const Cart = () => {
 	}, [isError, toast]);
 
 	return (
-		<div className="container sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] shadow-2xl min-h-[93vh]">
-			<div className="space-y-6 py-8 px-6">
+		<div className="container px-4 sm:px-8 sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] shadow-2xl min-h-[93vh] pb-8 sm:pb-0">
+			<div className="space-y-6 py-8 px-0 sm:px-6">
 				<h1 className="text-3xl font-bold mb-4">Your Cart</h1>
 				{(isLoading || isError) && <CartItemsSkeleton />}
 				{!isLoading &&

@@ -2,7 +2,7 @@ import { ProductInterface, ProductsResponseInterface } from "@/types";
 import { axiosClient } from "./http";
 
 export const fetchProducts = async (
-	searchParams: URLSearchParams
+	searchParams?: URLSearchParams
 ): Promise<ProductsResponseInterface> => {
 	const response = await axiosClient.get("/products", {
 		params: searchParams,

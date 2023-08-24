@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/store/auth-context";
 
 const UserDropdown = () => {
-	const { logout } = useContext(AuthContext);
+	const { logout, user } = useContext(AuthContext);
 
 	return (
 		<DropdownMenu>
@@ -26,12 +26,14 @@ const UserDropdown = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem asChild>
+				<DropdownMenuItem>
 					<Link to="/orders">Orders</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<Link to="/admin">Admin Panel</Link>
-				</DropdownMenuItem>
+				{user?.isAdmin && (
+					<DropdownMenuItem>
+						<Link to="/admin">Admin Panel</Link>
+					</DropdownMenuItem>
+				)}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					className="focus:text-destructive-foreground focus:bg-destructive"

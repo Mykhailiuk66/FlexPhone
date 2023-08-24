@@ -45,11 +45,11 @@ const Shop = () => {
 			<span className="block md:hidden">
 				<MobileFiltersSheet />
 			</span>
-			<div className="hidden md:block bg-background border-r pr-6 pl-10 py-4 shadow-2xl ">
+			<div className="hidden md:block bg-background border-r pr-6 pl-10 py-4 shadow-sm ">
 				<ShopFilters className="sticky top-20 max-h-[85vh] lg:max-h-[90vh]" />
 			</div>
 
-			<div className="bg-muted/40 p-6">
+			<div className="bg-muted/40 p-2 sm:p-6">
 				{(isLoading || isError) && <ProductsListSkeleton />}
 
 				{products && products.totalProducts === 0 && (
