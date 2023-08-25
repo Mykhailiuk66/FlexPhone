@@ -88,8 +88,8 @@ export const handleCheckout = async (
 		const session = await stripe.checkout.sessions.create({
 			mode: "payment",
 			client_reference_id: order._id.toString(),
-			success_url: `${process.env.CLIENT_URL}/orders`,
-			cancel_url: `${process.env.CLIENT_URL}/orders`,
+			success_url: `${process.env.CLIENT_URL}/orders?success=true`,
+			cancel_url: `${process.env.CLIENT_URL}/orders?canceled=true`,
 			line_items: extendedCart.map((p) => {
 				return {
 					price_data: {

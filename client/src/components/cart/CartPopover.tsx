@@ -8,10 +8,11 @@ import CartPopoverContent from "../cart/CartPopoverContent";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { useContext, useEffect } from "react";
 import { CartContext } from "@/store/cart-context";
-import { toast } from "../ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import CartPopoverSkeleton from "./CartPopoverSkeleton";
 
 const CartPopover = () => {
+	const { toast } = useToast();
 	const { cart, isLoading, isError } = useContext(CartContext);
 
 	const cartQty = cart
@@ -26,7 +27,7 @@ const CartPopover = () => {
 				description: "Something went wrong. Please try again later.",
 			});
 		}
-	}, [isError]);
+	}, [isError, toast]);
 
 	return (
 		<Popover>
