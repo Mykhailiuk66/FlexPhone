@@ -3,7 +3,7 @@ import { body } from "express-validator";
 
 import * as productsController from "../controllers/products";
 import * as productVariantsController from "../controllers/productVariants";
-import upload from "../utils/fileHandling";
+import upload from "../config/fileUpload";
 import { isAdmin, isAuth } from "../middleware/isAuth";
 
 const router = Router();

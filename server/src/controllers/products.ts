@@ -21,10 +21,6 @@ export const getProductsVariants = async (
 			if (maxPrice) query["variants.price"]["$lte"] = Number(maxPrice);
 		}
 
-		if (color) {
-			const colors = Array.isArray(color) ? color : [color];
-			query["variants.attributes.color.name"] = { $in: colors };
-		}
 		if (storage) {
 			const storages = Array.isArray(storage) ? storage : [storage];
 			query["variants.attributes.storage"] = { $in: storages };
@@ -35,7 +31,7 @@ export const getProductsVariants = async (
 		}
 		if (brand) {
 			const brands = Array.isArray(brand) ? brand : [brand];
-			query["characteristics.brand"] = { $in: brands };
+			query["characteristics.Brand"] = { $in: brands };
 		}
 
 		const perPage = 12;
@@ -61,7 +57,7 @@ export const getProductsVariants = async (
 					updatedAt: 1,
 				},
 			},
-			{ $sort: { createdAt: -1 } },
+			{ $sort: { "variants.price": -1 } },
 			{ $skip: skip },
 			{ $limit: perPage },
 		]);
