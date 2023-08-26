@@ -24,7 +24,9 @@ const VariantButton = ({
 				isSelected && "border-2 border-primary"
 			)}
 		>
-			<Link to={`/shop/${productId}/${variantId}`}>{children}</Link>
+			<Link to={`/shop/${productId}/${variantId}`} replace>
+				{children}
+			</Link>
 		</Button>
 	);
 };

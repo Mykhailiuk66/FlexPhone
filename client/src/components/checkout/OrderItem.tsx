@@ -14,13 +14,9 @@ const OrderItem = ({ image, title, price, quantity }: OrderItemProps) => {
 				<img
 					src={`${baseURL}/${image}`}
 					alt={title}
-					width={50}
-					height={50}
-					className="rounded-md"
-					style={{
-						aspectRatio: "50/50",
-						objectFit: "cover",
-					}}
+          width={50}
+          height={50}
+					className="rounded-md object-contain h-16"
 				/>
 				<div>
 					<h3 className="text-base font-medium">{title}</h3>

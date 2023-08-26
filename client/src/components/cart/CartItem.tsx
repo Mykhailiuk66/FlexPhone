@@ -48,11 +48,7 @@ const CartItem = ({
 						alt={title}
 						width={80}
 						height={80}
-						className="rounded-md min-w-16"
-						style={{
-							aspectRatio: "80/80",
-							objectFit: "cover",
-						}}
+						className="rounded-md min-w-16 object-contain h-20"
 					/>
 				</Link>
 				<div>

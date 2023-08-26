@@ -25,11 +25,15 @@ const CartPopoverContent = () => {
 		  )
 		: 0;
 
+	const cartQty = cart
+		? cart.reduce((acc, item) => acc + item.quantity, 0)
+		: 0;
+
 	return (
 		<Card className="shadow-none border-0">
 			<CardHeader className="border-b py-4">
 				<CardTitle>Cart</CardTitle>
-				<CardDescription>3 items in your cart</CardDescription>
+				<CardDescription>{cartQty} items in your cart</CardDescription>
 			</CardHeader>
 
 			<CardContent className="p-6 grid gap-4 max-h-80 overflow-y-auto">
