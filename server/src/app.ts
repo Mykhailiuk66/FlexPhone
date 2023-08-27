@@ -17,6 +17,12 @@ connectToDB();
 
 app.use(cors());
 
+app.post(
+	"/webhook-checkout",
+	express.raw({ type: "application/json" }),
+	webhookCheckout
+);
+
 app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
@@ -25,12 +31,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", checkoutRouter);
-
-app.post(
-	"/webhook-checkout",
-	express.raw({ type: "application/json" }),
-	webhookCheckout
-);
 
 app.use(errorHandler);
 

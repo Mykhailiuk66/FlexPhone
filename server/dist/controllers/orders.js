@@ -63,9 +63,7 @@ const handleCheckout = async (req, res, next) => {
         });
         const reservationRes = await (0, orderHandling_1.reserveProducts)(extendedCart);
         if (!reservationRes.success) {
-            return res
-                .status(400)
-                .json({
+            return res.status(400).json({
                 message: `The ordered quantity for ${reservationRes.productName} exceeds the available stock`,
             });
         }
@@ -116,9 +114,8 @@ const updateOrderStatus = async (req, res, next) => {
 exports.updateOrderStatus = updateOrderStatus;
 const webhookCheckout = async (req, res, next) => {
     const sig = req.headers["stripe-signature"];
-    let event;
-    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     try {
+        const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
         let orderId;
         switch (event.type) {
             case "checkout.session.completed":

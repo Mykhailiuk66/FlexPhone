@@ -78,11 +78,9 @@ export const handleCheckout = async (
 
 		const reservationRes = await reserveProducts(extendedCart);
 		if (!reservationRes.success) {
-			return res
-				.status(400)
-				.json({
-					message: `The ordered quantity for ${reservationRes.productName} exceeds the available stock`,
-				});
+			return res.status(400).json({
+				message: `The ordered quantity for ${reservationRes.productName} exceeds the available stock`,
+			});
 		}
 
 		const session = await stripe.checkout.sessions.create({
@@ -143,15 +141,13 @@ export const webhookCheckout = async (
 ) => {
 	const sig = req.headers["stripe-signature"];
 
-	let event;
-
-	event = stripe.webhooks.constructEvent(
-		req.body,
-		sig as string,
-		process.env.STRIPE_WEBHOOK_SECRET as string
-	);
-
 	try {
+		const event = stripe.webhooks.constructEvent(
+			req.body,
+			sig as string,
+			process.env.STRIPE_WEBHOOK_SECRET as string
+		);
+
 		let orderId: string;
 		switch (event.type) {
 			case "checkout.session.completed":

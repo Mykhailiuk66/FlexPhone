@@ -17,13 +17,13 @@ const orders_2 = require("./controllers/orders");
 const app = (0, express_1.default)();
 (0, connectToDB_1.connectToDB)();
 app.use((0, cors_1.default)());
+app.post("/webhook-checkout", express_1.default.raw({ type: "application/json" }), orders_2.webhookCheckout);
 app.use(express_1.default.json());
 app.use("/images", express_1.default.static(path_1.default.join(__dirname, "images")));
 app.use("/api/auth", auth_1.default);
 app.use("/api/products", products_1.default);
 app.use("/api/cart", cart_1.default);
 app.use("/api/orders", orders_1.default);
-app.post("/webhook-checkout", express_1.default.raw({ type: "application/json" }), orders_2.webhookCheckout);
 app.use(errorHandler_1.default);
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

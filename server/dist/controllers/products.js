@@ -32,7 +32,7 @@ const getProductsVariants = async (req, res, next) => {
             const brands = Array.isArray(brand) ? brand : [brand];
             query["characteristics.Brand"] = { $in: brands };
         }
-        const perPage = 12;
+        const perPage = 15;
         const skip = (currentPage - 1) * perPage;
         const products = await Product_1.Product.aggregate([
             { $unwind: "$variants" },
@@ -110,7 +110,7 @@ const createProduct = async (req, res, next) => {
         }
         let defaultImages = [];
         if (req.files) {
-            defaultImages = JSON.parse(JSON.stringify(req.files)).map((file) => file.path.replace(/\\/g, "/"));
+            defaultImages = JSON.parse(JSON.stringify(req.files)).map((file) => file.path.replace("..\\", "").replace(/\\/g, "/"));
         }
         const newProduct = new Product_1.Product({
             name: req.body.name,
@@ -135,7 +135,7 @@ const updateProduct = async (req, res, next) => {
         const productId = req.params.productId;
         let defaultImages = req.body.defaultImages || [];
         if (req.files) {
-            defaultImages = JSON.parse(JSON.stringify(req.files)).map((file) => file.path.replace(/\\/g, "/"));
+            defaultImages = JSON.parse(JSON.stringify(req.files)).map((file) => "images/" + file.filename);
         }
         const product = await Product_1.Product.findByIdAndUpdate(productId, {
             name: req.body.name,
