@@ -15,7 +15,7 @@ const CheckoutOrderSummary = () => {
 				<h2 className="text-xl font-bold">Order Summary</h2>
 				<div className="space-y-2">
 					{cart?.length === 0 && (
-						<p className="text-muted-foreground text-3xl font-bold mb-8 h-1/3 content-center text-center">
+						<p className="text-muted-foreground text-3xl font-bold mb-8 h-1/3 content-center text-center py-20">
 							Your cart is empty
 						</p>
 					)}

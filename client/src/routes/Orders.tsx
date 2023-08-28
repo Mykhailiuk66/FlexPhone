@@ -58,12 +58,18 @@ const Orders = () => {
 
 			{isLoading && <OrdersSkeleton />}
 
-			{!isLoading && (
+			{!isLoading && (data?.orders.length ?? 0) > 0 && (
 				<Accordion type="single" collapsible>
 					{data?.orders.map((order) => (
 						<OrderAccordionItem key={order._id} order={order} />
 					))}
 				</Accordion>
+			)}
+
+			{!isLoading && data?.orders.length === 0 && (
+				<p className="text-muted-foreground text-3xl font-bold align-center text-center pt-32">
+          No orders found
+				</p>
 			)}
 		</div>
 	);
