@@ -1,6 +1,6 @@
 <h1>FlexPhone</h1>
 
-FlexPhone is an e-commerce website designed for purchasing smartphones. The site features a catalog of various phones, allowing users to browse, filter and buy products. FlexPhone is integrated with the Stripe payment system to provide a secure checkout process. Users can add items to their cart, manage their cart items, and complete their transactions.
+FlexPhone is an e-commerce website for purchasing smartphones, featuring a phone catalog, cart management, and a secure checkout process integrated with Stripe.
 
 <a href="https://flex-phone-client.vercel.app">Link</a>
 
