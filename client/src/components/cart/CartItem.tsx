@@ -62,6 +62,7 @@ const CartItem = ({
 				<Input
 					type="number"
           defaultValue={quantity}
+          min={1}
 					onChange={(e) =>
 						handleQuantityChange(
 							productId,
