@@ -11,6 +11,10 @@ const CartSchema = new Schema(
 		},
 		products: [
 			{
+				productId: {
+					type: Schema.Types.ObjectId,
+					ref: "Product",
+				},
 				variantId: {
 					type: Schema.Types.ObjectId,
 					ref: "Product.variants",
@@ -19,9 +23,6 @@ const CartSchema = new Schema(
 			},
 		],
 	},
-	{
-		timestamps: true,
-	}
 );
 
 export default mongoose.model("Cart", CartSchema);

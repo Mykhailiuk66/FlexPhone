@@ -1,19 +1,72 @@
 import { Router } from "express";
+import { body } from "express-validator";
 
-import Product from "../models/Product";
+import * as productsController from "../controllers/products";
+import * as productVariantsController from "../controllers/productVariants";
+import upload from "../utils/fileHandling";
+import { isAdmin, isAuth } from "../middleware/isAuth";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-	const products = await Product.find({});
-	res.status(200).json(products);
-});
+router.get("/", productsController.getAllProducts);
+router.get("/:productId", productsController.getProduct);
+router.delete(
+	"/:productId",
+	[isAuth, isAdmin],
+	productsController.deleteProduct
+);
 
-router.post("/", async (req, res) => {
-  console.log(req.body);
-	const newProduct = new Product(req.body);
-	const savedProduct = await newProduct.save();
-	res.status(200).json(savedProduct);
-});
+router.post(
+	"/",
+	[isAuth, isAdmin],
+	upload.array("defaultImages"),
+	[
+		body("name").trim().notEmpty().withMessage("Name is required"),
+		body("description")
+			.trim()
+			.notEmpty()
+			.withMessage("Description is required"),
+	],
+	productsController.createProduct
+);
+
+router.put(
+	"/:productId",
+	[isAuth, isAdmin],
+	upload.array("defaultImages"),
+	[
+		body("name").trim().notEmpty().withMessage("Name is required"),
+		body("description")
+			.trim()
+			.notEmpty()
+			.withMessage("Description is required"),
+	],
+	productsController.updateProduct
+);
+
+router.put(
+	"/:productId/variants",
+	[isAuth, isAdmin],
+	upload.array("images"),
+	[
+		body("price")
+			.toFloat()
+			.not()
+			.equals("0")
+			.isFloat({ min: 0 })
+			.withMessage("Price must be greater than 0"),
+		body("inStock")
+			.toInt()
+			.isInt({ min: 0 })
+			.withMessage("Instock must be positive number"),
+	],
+	productVariantsController.createProductVariant
+);
+
+router.delete(
+	"/:productId/variants/:variantId",
+	[isAuth, isAdmin],
+	productVariantsController.deleteProductVariant
+);
 
 export default router;
