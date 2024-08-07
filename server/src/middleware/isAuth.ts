@@ -1,26 +1,34 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import HttpError from "../exeptions/HttpError";
 
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
-	const token = req.headers.authorization?.split(" ")[1];
-	if (!token) {
-		return res.status(401).json("You are not authenticated!");
-	}
-
-	jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
-		if (err) {
-			return res.status(403).json("Token is not valid!");
+	try {
+		const token = req.headers.authorization?.split(" ")[1];
+		if (!token) {
+			throw new HttpError(401, "You are not authenticated!");
 		}
 
-		req.user = user;
+		jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
+			if (err) {
+				throw new HttpError(401, "Token is not valid!");
+			}
 
-		next();
-	});
+			req.user = user;
+			next();
+		});
+	} catch (err) {
+		next(err);
+	}
 };
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
-	if (!req.user.isAdmin) {
-		return res.status(403).json("Access denied");
+	try {
+		if (!req.user.isAdmin) {
+			throw new HttpError(403, "Access denied");
+		}
+		next();
+	} catch (err) {
+		next(err);
 	}
-	next();
 };

@@ -53,6 +53,7 @@ router.put(
 			.toFloat()
 			.not()
 			.equals("0")
+			.withMessage("Price must be greater than 0")
 			.isFloat({ min: 0 })
 			.withMessage("Price must be greater than 0"),
 		body("inStock")

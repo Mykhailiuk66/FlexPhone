@@ -7,6 +7,8 @@ import errorHandler from "./middleware/errorHandler";
 import authRouter from "./routes/auth";
 import productRouter from "./routes/products";
 import cartRouter from "./routes/cart";
+import checkoutRouter from "./routes/orders";
+import { webhookCheckout } from "./controllers/orders";
 
 const app = express();
 
@@ -19,6 +21,13 @@ app.use("/images", express.static(path.join("images")));
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/orders", checkoutRouter);
+
+app.post(
+	"/webhook-checkout",
+	express.raw({ type: "application/json" }),
+	webhookCheckout
+);
 
 app.use(errorHandler);
 
