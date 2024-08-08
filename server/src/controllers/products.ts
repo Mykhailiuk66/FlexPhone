@@ -10,25 +10,50 @@ export const getAllProducts = async (
 ) => {
 	try {
 		const currentPage = parseInt(req.query.page as string) || 1;
-		const perPage = 9;
 		const { color, storage, ram, brand, minPrice, maxPrice } = req.query;
 
 		const query: any = {};
+    query["variants.inStock"] = { $gt: 0 };
 
 		if (minPrice || maxPrice) {
-			query.price = {};
-			if (minPrice) query.price.$gte = Number(minPrice);
-			if (maxPrice) query.price.$lte = Number(maxPrice);
+			query["variants.price"] = {};
+			if (minPrice) query["variants.price"]["$gte"] = Number(minPrice);
+			if (maxPrice) query["variants.price"]["$lte"] = Number(maxPrice);
 		}
-		if (color) query["variants.attributes.color"] = color;
-		if (storage) query["variants.attributes.storage"] = storage;
-		if (ram) query["characteristics.RAM"] = ram;
-		if (brand) query["characteristics.brand"] = brand;
 
+		if (color) {
+			const colors = Array.isArray(color) ? color : [color];
+			query["variants.attributes.color.name"] = { $in: colors };
+		}
+		if (storage) {
+			const storages = Array.isArray(storage) ? storage : [storage];
+			query["variants.attributes.storage"] = { $in: storages };
+		}
+		if (ram) {
+			const rams = Array.isArray(ram) ? ram : [ram];
+			query["characteristics.RAM"] = { $in: rams };
+		}
+		if (brand) {
+			const brands = Array.isArray(brand) ? brand : [brand];
+			query["characteristics.brand"] = { $in: brands };
+		}
+
+		const perPage = 9;
 		const skip = (currentPage - 1) * perPage;
+		const products = await Product.aggregate([
+			{ $unwind: "$variants" },
+			{ $match: query },
+			{ $skip: skip },
+			{ $limit: perPage },
+		]);
 
-		const products = await Product.find(query).skip(skip).limit(perPage);
-		const totalProducts = await Product.countDocuments(query);
+		const countResult = await Product.aggregate([
+			{ $unwind: "$variants" },
+			{ $match: query },
+			{ $count: "totalCount" },
+		]);
+
+		const totalProducts = countResult[0]?.totalCount || 0;
 		const totalPages = Math.ceil(totalProducts / perPage);
 
 		res.status(200).json({
