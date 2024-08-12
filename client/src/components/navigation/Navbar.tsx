@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -42,14 +42,18 @@ const Navbar = () => {
 			</nav>
 
 			<div className="flex items-center gap-4">
-				<span className="block md:hidden relative">
-					<RiShoppingCart2Line className="h-6 w-6 text-primary" />
-					<span className="absolute -top-0.5 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
-						{3}
+				<Link to="/cart" className="block md:hidden">
+					<span className="relative">
+						<RiShoppingCart2Line className="h-6 w-6 text-primary" />
+
+						<span className="absolute -top-0.5 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+							{3}
+						</span>
 					</span>
-				</span>
+				</Link>
+
 				<span className="hidden md:block">
-					<CartPopover cartQty={3}/>
+					<CartPopover cartQty={3} />
 				</span>
 
 				<div className="flex items-center gap-2">

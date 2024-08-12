@@ -1,15 +1,6 @@
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import CartPopoverItem from "./CartPopoverItem";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import CartItem from "@/components/cart/CartItem";
+import OrderSummary from "@/components/cart/OrderSummary";
 
 const cartItems = [
 	{
@@ -33,9 +24,23 @@ const cartItems = [
 		price: 899.99,
 		quantity: 1,
 	},
+	{
+		id: 4,
+		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
+		title: "iPhone 14 Pro",
+		price: 999.99,
+		quantity: 1,
+	},
+	{
+		id: 5,
+		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
+		title: "Samsung Galaxy S23 Ultra",
+		price: 1199.99,
+		quantity: 1,
+	},
 ];
 
-const CartPopoverContent = () => {
+export default function Component() {
 	const [cart, setCart] = useState(cartItems);
 	const handleQuantityChange = (id: number, value: string) => {
 		setCart(
@@ -51,18 +56,14 @@ const CartPopoverContent = () => {
 		(total, item) => total + item.price * item.quantity,
 		0
 	);
-
 	return (
-		<Card className="shadow-none border-0">
-			<CardHeader className="border-b py-4">
-				<CardTitle>Cart</CardTitle>
-				<CardDescription>3 items in your cart</CardDescription>
-			</CardHeader>
+		<div className="grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] gap-8 w-full lg:w-3/4 mx-auto shadow-2xl h-full md:min-h-[90vh] lg:h-fit">
+			<div className="space-y-6 pt-8 px-6">
+				<h1 className="text-3xl font-bold mb-4">Your Cart</h1>
 
-			<CardContent className="p-6 grid gap-4 max-h-80 overflow-y-auto">
 				{cart.length > 0 &&
 					cart.map((item) => (
-						<CartPopoverItem
+						<CartItem
 							key={item.id}
 							id={item.id}
 							img={item.image}
@@ -75,24 +76,12 @@ const CartPopoverContent = () => {
 					))}
 
 				{cart.length === 0 && (
-					<p className="text-muted-foreground text-xl font-bold h-1/3 align-center text-center">
+					<p className="text-muted-foreground text-3xl font-bold mb-8 h-1/3 content-center text-center">
 						Your cart is empty
 					</p>
 				)}
-			</CardContent>
-			<CardFooter className="border-t pt-2 flex-col">
-				<span>
-					<p className="font-medium">
-						Total: ${totalPrice.toFixed(2)}
-					</p>
-				</span>
-
-				<Button variant="default" className="mt-4 w-full" asChild>
-					<Link to="/cart">View Cart</Link>
-				</Button>
-			</CardFooter>
-		</Card>
+			</div>
+			<OrderSummary cart={cart} totalPrice={totalPrice} />
+		</div>
 	);
-};
-
-export default CartPopoverContent;
+}
