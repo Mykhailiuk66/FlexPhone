@@ -63,6 +63,7 @@ const Shop = () => {
 					{Array.from({ length: 19 }, (_, i) => (
 						<ProductCard
 							key={i}
+							id={i.toString()}
 							children="iPhone 14 Pro"
 							attr_desc="128GB, 6GB RAM"
 							img="https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg"
@@ -71,6 +72,7 @@ const Shop = () => {
 					))}
 
 					<ProductCard
+						id="20"
 						children="iPhone 14 Pro Max Ultra Wide Mega Plus"
 						attr_desc="128GB, 6GB RAM"
 						img="https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp"
