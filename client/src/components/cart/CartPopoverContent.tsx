@@ -48,7 +48,9 @@ const CartPopoverContent = () => {
 		setCart(cart.filter((item) => item.id !== id));
 	};
 	const totalPrice = cart.reduce(
-		(total, item) => total + item.price * item.quantity,
+		(total, item) =>
+			total +
+			item.price * (Number.isNaN(item.quantity) ? 1 : item.quantity),
 		0
 	);
 

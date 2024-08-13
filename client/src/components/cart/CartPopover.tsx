@@ -3,6 +3,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { Arrow } from "@radix-ui/react-popover";
 import CartPopoverContent from "../cart/CartPopoverContent";
 import { RiShoppingCart2Line } from "react-icons/ri";
 
@@ -21,6 +22,7 @@ const CartPopover = ({ cartQty }: CartPopoverProps) => {
 				</span>
 			</PopoverTrigger>
 			<PopoverContent className="w-[26rem] p-1">
+				<Arrow />
 				<CartPopoverContent />
 			</PopoverContent>
 		</Popover>
