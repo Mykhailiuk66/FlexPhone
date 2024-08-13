@@ -57,8 +57,12 @@ const Navbar = () => {
 				</span>
 
 				<div className="flex items-center gap-2">
-					<Button variant="outline">Login</Button>
-					<Button>Register</Button>
+					<Button variant="outline" asChild>
+						<Link to={"/login"}>Login</Link>
+					</Button>
+					<Button asChild>
+						<Link to={"/register"}>Register</Link>
+					</Button>
 				</div>
 			</div>
 		</header>
