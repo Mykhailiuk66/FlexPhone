@@ -7,6 +7,7 @@ import Cart from "./routes/Cart";
 import Orders from "./routes/Orders";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
+import Checkout from "./routes/Checkout";
 
 const router = createBrowserRouter([
 	{
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
 			{
 				path: "/cart",
 				element: <Cart />,
+			},
+			{
+				path: "/checkout",
+				element: <Checkout />,
 			},
 			{
 				path: "/orders",

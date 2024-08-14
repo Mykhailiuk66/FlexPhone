@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CartItem from "@/components/cart/CartItem";
-import OrderSummary from "@/components/cart/OrderSummary";
+import CartOrderSummary from "@/components/cart/CartOrderSummary";
 
 const cartItems = [
 	{
@@ -57,8 +57,8 @@ export default function Component() {
 		0
 	);
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] gap-8 w-full lg:w-3/4 mx-auto shadow-2xl h-full md:min-h-[90vh] lg:h-fit">
-			<div className="space-y-6 pt-8 px-6">
+		<div className="container sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] shadow-2xl min-h-[93vh]">
+			<div className="space-y-6 py-8 px-6">
 				<h1 className="text-3xl font-bold mb-4">Your Cart</h1>
 
 				{cart.length > 0 &&
@@ -81,7 +81,7 @@ export default function Component() {
 					</p>
 				)}
 			</div>
-			<OrderSummary cart={cart} totalPrice={totalPrice} />
+			<CartOrderSummary cart={cart} totalPrice={totalPrice} />
 		</div>
 	);
 }

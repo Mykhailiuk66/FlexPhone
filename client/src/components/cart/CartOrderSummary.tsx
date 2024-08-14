@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
 
 interface OrderSummaryProps {
 	cart: {
@@ -12,9 +13,9 @@ interface OrderSummaryProps {
 	totalPrice: number;
 }
 
-const OrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
+const CartOrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
 	return (
-		<div className="border shadow-sm w-full h-full px-6 pt-7 lg:min-h-[90vh]">
+		<div className="border shadow-sm w-full h-full px-6 pt-7">
 			<div className="space-y-4 sticky top-24 pb-8">
 				<h2 className="text-xl font-bold">Order Summary</h2>
 
@@ -48,8 +49,8 @@ const OrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
 				</div>
 
 				<div className="pt-6">
-					<Button size="lg" className="w-full">
-						Proceed to Checkout
+					<Button size="lg" className="w-full" asChild>
+						<Link to="/checkout">Proceed to Checkout</Link>
 					</Button>
 				</div>
 			</div>
@@ -57,4 +58,4 @@ const OrderSummary = ({ cart, totalPrice }: OrderSummaryProps) => {
 	);
 };
 
-export default OrderSummary;
+export default CartOrderSummary;

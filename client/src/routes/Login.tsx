@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "@/components/auth/AuthLayout";
-import AuthFormField from "@/components/auth/AuthFormField";
+import FormField from "@/components/other/FormField";
 
 function Login() {
 	return (
@@ -22,8 +22,8 @@ function Login() {
 					</p>
 				</div>
 				<div className="space-y-4 my-8">
-					<AuthFormField id="email" type="email" label="Email" />
-					<AuthFormField
+					<FormField id="email" type="email" label="Email" />
+					<FormField
 						id="password"
 						type="password"
 						label="Password"

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import AuthLayout from "@/components/auth/AuthLayout";
-import AuthFormField from "@/components/auth/AuthFormField";
+import FormField from "@/components/other/FormField";
 
 const Register = () => {
 	return (
@@ -22,23 +22,23 @@ const Register = () => {
 					</p>
 				</div>
 				<div className="space-y-4 my-8">
-					<AuthFormField
+					<FormField
 						id="firstName"
 						type="text"
 						label="First Name"
 					/>
-					<AuthFormField
+					<FormField
 						id="lastName"
 						type="text"
 						label="Last Name"
 					/>
-					<AuthFormField id="email" type="email" label="Email" />
-					<AuthFormField
+					<FormField id="email" type="email" label="Email" />
+					<FormField
 						id="password"
 						type="password"
 						label="Password"
 					/>
-					<AuthFormField
+					<FormField
 						id="confirmPassword"
 						type="password"
 						label="Confirm Password"
