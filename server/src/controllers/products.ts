@@ -3,7 +3,7 @@ import { Product } from "../models/Product";
 import HttpError from "../exeptions/HttpError";
 import { validationResult } from "express-validator";
 
-export const getAllProducts = async (
+export const getProductsVariants = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -13,7 +13,7 @@ export const getAllProducts = async (
 		const { color, storage, ram, brand, minPrice, maxPrice } = req.query;
 
 		const query: any = {};
-    query["variants.inStock"] = { $gt: 0 };
+		query["variants.inStock"] = { $gt: 0 };
 
 		if (minPrice || maxPrice) {
 			query["variants.price"] = {};
@@ -38,11 +38,30 @@ export const getAllProducts = async (
 			query["characteristics.brand"] = { $in: brands };
 		}
 
-		const perPage = 9;
+		const perPage = 12;
 		const skip = (currentPage - 1) * perPage;
 		const products = await Product.aggregate([
 			{ $unwind: "$variants" },
 			{ $match: query },
+			{
+				$project: {
+					_id: 1,
+					name: 1,
+					description: 1,
+					characteristics: 1,
+					defaultImages: 1,
+					variants: {
+						$cond: {
+							if: { $isArray: "$variants" },
+							then: "$variants",
+							else: ["$variants"],
+						},
+					},
+					createdAt: 1,
+					updatedAt: 1,
+				},
+			},
+			{ $sort: { createdAt: -1 } },
 			{ $skip: skip },
 			{ $limit: perPage },
 		]);
@@ -62,6 +81,19 @@ export const getAllProducts = async (
 			totalPages,
 			currentPage,
 		});
+	} catch (err) {
+		next(err);
+	}
+};
+
+export const getAllProducts = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const products = await Product.find();
+		res.status(200).json({ products });
 	} catch (err) {
 		next(err);
 	}

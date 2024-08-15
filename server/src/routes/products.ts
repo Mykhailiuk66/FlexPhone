@@ -8,7 +8,8 @@ import { isAdmin, isAuth } from "../middleware/isAuth";
 
 const router = Router();
 
-router.get("/", productsController.getAllProducts);
+router.get("/", productsController.getProductsVariants);
+router.get("/all", [isAuth, isAdmin], productsController.getAllProducts);
 router.get("/:productId", productsController.getProduct);
 router.delete(
 	"/:productId",

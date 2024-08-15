@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import cors from "cors";
 
 import "./config/loadEnv";
 import { connectToDB } from "./config/connectToDB";
@@ -13,6 +14,8 @@ import { webhookCheckout } from "./controllers/orders";
 const app = express();
 
 connectToDB();
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -31,8 +34,7 @@ app.post(
 
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 8000, () => {
-	console.log(
-		`Express server is listening on port ${"http://127.0.0.1:"}8000`
-	);
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+	console.log(`Express server is listening on port ${port}`);
 });
