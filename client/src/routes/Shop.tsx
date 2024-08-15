@@ -36,8 +36,6 @@ const Shop = () => {
 		}
 	}, [isError, toast]);
 
-	if (isLoading || isError) return <ProductListSkeleton />;
-
 	return (
 		<div className="md:grid md:grid-cols-[270px_1fr] min-h-screen">
 			<span className="block md:hidden">
@@ -48,6 +46,14 @@ const Shop = () => {
 			</div>
 
 			<div className="bg-muted/40 p-6">
+				{(isLoading || isError) && <ProductListSkeleton />}
+
+				{data && data.totalProducts === 0 && (
+					<p className="text-muted-foreground text-3xl font-bold mt-20 content-center text-center">
+						No products found
+					</p>
+				)}
+
 				{data && <ProductsList products={data.products} />}
 
 				{data && data.totalPages > 0 && (

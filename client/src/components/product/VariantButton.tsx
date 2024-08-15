@@ -3,14 +3,20 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
 interface VariantButtonProps {
-  variant: any;
-  isSelected: boolean;
+	productId: string;
+	variantId: string;
+	isSelected: boolean;
+	children: React.ReactNode;
 }
 
-const VariantButton = ({ variant, isSelected }: VariantButtonProps) => {
+const VariantButton = ({
+	productId,
+	variantId,
+	isSelected,
+	children,
+}: VariantButtonProps) => {
 	return (
 		<Button
-			key={variant.id}
 			variant="outline"
 			asChild
 			className={cn(
@@ -18,7 +24,7 @@ const VariantButton = ({ variant, isSelected }: VariantButtonProps) => {
 				isSelected && "border-2 border-primary"
 			)}
 		>
-			<Link to={`/shop/${variant.id}`}>{`${variant.attributes!.color!.name}, ${variant.attributes!.storage}`}</Link>
+			<Link to={`/shop/${productId}/${variantId}`}>{children}</Link>
 		</Button>
 	);
 };
