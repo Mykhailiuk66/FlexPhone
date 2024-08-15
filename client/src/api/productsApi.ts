@@ -10,3 +10,10 @@ export const fetchProducts = async (
 
 	return response.data;
 };
+
+export const fetchProduct = async (
+	productId: string
+): Promise<ProductsResponseInterface> => {
+	const response = await axiosClient.get(`/products/${productId}`);
+	return response.data;
+};

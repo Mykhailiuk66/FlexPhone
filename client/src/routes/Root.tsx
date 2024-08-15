@@ -1,5 +1,6 @@
 import Navbar from "@/components/navigation/Navbar";
 import { Outlet, useLocation } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 
 const Root = () => {
 	const { pathname } = useLocation();
@@ -12,6 +13,8 @@ const Root = () => {
 			<main>
 				<Outlet />
 			</main>
+
+      <Toaster />
 		</>
 	);
 };

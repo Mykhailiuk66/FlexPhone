@@ -7,8 +7,11 @@ import ProductsList from "@/components/shop/ProductsList";
 import MobileFiltersSheet from "@/components/shop/MobileFiltersSheet";
 import ProductListSkeleton from "@/components/shop/ProductListSkeleton";
 import { fetchProducts } from "@/api/productsApi";
+import { useToast } from "@/components/ui/use-toast";
+import { useEffect } from "react";
 
 const Shop = () => {
+	const { toast } = useToast();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ["products", searchParams.toString()],
@@ -23,6 +26,18 @@ const Shop = () => {
 		});
 	};
 
+	useEffect(() => {
+		if (isError) {
+			toast({
+				variant: "destructive",
+				duration: 1000 * 60,
+				description: "Something went wrong. Please try again later.",
+			});
+		}
+	}, [isError, toast]);
+
+	if (isLoading || isError) return <ProductListSkeleton />;
+
 	return (
 		<div className="md:grid md:grid-cols-[270px_1fr] min-h-screen">
 			<span className="block md:hidden">
@@ -33,9 +48,6 @@ const Shop = () => {
 			</div>
 
 			<div className="bg-muted/40 p-6">
-				{isLoading && <ProductListSkeleton />}
-				{isError && <div>Something went wrong</div>}
-
 				{data && <ProductsList products={data.products} />}
 
 				{data && data.totalPages > 0 && (
