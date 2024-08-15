@@ -59,7 +59,7 @@ const specifications = {
 };
 
 const Product = () => {
-	const { id } = useParams();
+	const { product_id, variant_id } = useParams();
 
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 sm:gap-10 md:gap-20 items-start w-full md:w-5/6 mx-auto p-6 md:p-12 pb-10 lg:pt-20 shadow-2xl h-full lg:min-h-[90vh] lg:h-fit">
@@ -75,7 +75,9 @@ const Product = () => {
 							<VariantButton
 								key={variant.id}
 								variant={variant}
-								isSelected={id === variant.id.toString()}
+								isSelected={
+									variant_id === variant.id.toString()
+								}
 							/>
 						))}
 					</div>

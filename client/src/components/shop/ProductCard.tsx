@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 interface ProductCardProps {
 	children: React.ReactNode;
-	id: string;
+	product_id: string;
+	variant_id: string;
 	attr_desc: string;
 	img: string;
 	price: number;
@@ -12,25 +13,26 @@ interface ProductCardProps {
 
 const ProductCard = ({
 	children,
-	id,
+	product_id,
+	variant_id,
 	attr_desc,
 	img,
 	price,
 }: ProductCardProps) => {
 	return (
 		<div className="rounded-lg bg-background shadow-xl flex flex-col justify-between hover:scale-110 transition duration-500 cursor-pointer object-cover h-auto">
-			<Link to={`${id}`}>
+			<Link to={`${product_id}/${variant_id}`}>
 				<img
 					src={img}
 					alt="Product Image"
 					width={300}
 					height={300}
-					className="aspect-square w-full rounded-t-lg object-cover cursor-pointer p-3"
+					className="m-auto aspect-square w-11/12 rounded-t-lg object-cover cursor-pointer p-3"
 				/>
 			</Link>
 
 			<div className="p-4 flex-1">
-				<Link to={`${id}`}>
+				<Link to={`${product_id}/${variant_id}`}>
 					<h3 className="text-lg font-semibold line-clamp-2">
 						{children}
 					</h3>

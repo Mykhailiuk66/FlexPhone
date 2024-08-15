@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import Root from "./routes/Root";
 import Shop from "./routes/Shop";
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
 				element: <Shop />,
 			},
 			{
-				path: "/shop/:id",
+				path: "/shop/:product_id/:variant_id",
 				element: <Product />,
 			},
 			{
@@ -50,11 +51,13 @@ const router = createBrowserRouter([
 	},
 ]);
 
+const queryClient = new QueryClient();
+
 function App() {
 	return (
-		<>
+		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={router} />
-		</>
+		</QueryClientProvider>
 	);
 }
 
