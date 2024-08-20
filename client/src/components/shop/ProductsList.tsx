@@ -13,12 +13,9 @@ const ProductsList = ({ products }: ProductListProps) => {
 			{products.length > 0 &&
 				products.map((product) => {
 					const prodImg =
-						product.variants[0].images.length > 0
-							? product.variants[0].images[0]
-							: product.defaultImages.length > 0
-							? product.defaultImages[0]
-							: "";
-
+						product.variants[0].images[0] ||
+						product.defaultImages[0] ||
+						"";
 					return (
 						<ProductCard
 							key={product.variants[0]._id}

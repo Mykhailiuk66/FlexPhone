@@ -43,6 +43,7 @@ const cartItems = [
 export default function Component() {
 	const [cart, setCart] = useState(cartItems);
 	const handleQuantityChange = (id: number, value: string) => {
+		if (parseInt(value) < 1 || isNaN(parseInt(value))) return;
 		setCart(
 			cart.map((item) =>
 				item.id === id ? { ...item, quantity: parseInt(value) } : item

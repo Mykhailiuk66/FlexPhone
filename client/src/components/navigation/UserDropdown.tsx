@@ -8,29 +8,37 @@ import {
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "@/store/auth-context";
 
 const UserDropdown = () => {
+	const { logout } = useContext(AuthContext);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button
-					variant="outline"
+					variant="default"
 					size="icon"
-					className="rounded-full border-primary border-2"
+					className="rounded-full border-primary border-2 h-8 w-8"
 				>
-					<FaUser className="h-5 w-5 text-primary" />
+					<FaUser className="h-5 w-5" />
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem>
+				<DropdownMenuItem asChild>
 					<Link to="/orders">Orders</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem>
+				<DropdownMenuItem asChild>
 					<Link to="/admin">Admin Panel</Link>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
-					<Link to="/logout">Logout</Link>
+				<DropdownMenuItem
+					className="focus:text-destructive-foreground focus:bg-destructive"
+					onClick={logout}
+				>
+					Logout
+					{/* <Button variant="destructive" onClick={logout}>Logout</Button> */}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

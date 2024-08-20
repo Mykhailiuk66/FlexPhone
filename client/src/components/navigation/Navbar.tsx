@@ -9,8 +9,12 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import NavbarLink from "./NavbarLink";
 import CartPopover from "../cart/CartPopover";
 import UserDropdown from "./UserDropdown";
+import { useContext } from "react";
+import { AuthContext } from "@/store/auth-context";
 
 const Navbar = () => {
+	const { user } = useContext(AuthContext);
+
 	return (
 		<header className="flex items-center justify-between bg-background px-4 py-3.5 shadow-lg sm:px-6 md:px-12 lg:px-16 sticky top-0 z-50">
 			<NavLink to="/" className="flex items-center gap-2">
@@ -30,13 +34,13 @@ const Navbar = () => {
 					className="hidden md:block h-6 bg-secondary-foreground"
 				/>
 				<span className="hidden md:flex gap-4">
-					<NavbarLink to="/shop?brand=Samsung" brandName="samsung">
+					<NavbarLink to="/shop?brand=Samsung" brandName="Samsung">
 						Samsung
 					</NavbarLink>
-					<NavbarLink to="/shop?brand=Apple" brandName="apple">
+					<NavbarLink to="/shop?brand=Apple" brandName="Apple">
 						Apple
 					</NavbarLink>
-					<NavbarLink to="/shop?brand=Xiaomi" brandName="xiaomi">
+					<NavbarLink to="/shop?brand=Xiaomi" brandName="Xiaomi">
 						Xiaomi
 					</NavbarLink>
 				</span>
@@ -53,19 +57,23 @@ const Navbar = () => {
 					</span>
 				</Link>
 
-				<span className="hidden md:block">
+				<span className="hidden md:block mr-4">
 					<CartPopover cartQty={3} />
 				</span>
 
 				<div className="flex items-center gap-2">
-					<Button variant="outline" asChild>
-						<Link to={"/login"}>Login</Link>
-					</Button>
-					<Button asChild>
-						<Link to={"/register"}>Register</Link>
-					</Button>
+					{!user && (
+						<>
+							<Button variant="outline" asChild>
+								<Link to={"/login"}>Login</Link>
+							</Button>
+							<Button asChild>
+								<Link to={"/register"}>Register</Link>
+							</Button>
+						</>
+					)}
 
-					<UserDropdown />
+					{user && <UserDropdown />}
 				</div>
 			</div>
 		</header>

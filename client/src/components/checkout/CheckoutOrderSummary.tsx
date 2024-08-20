@@ -58,7 +58,7 @@ const CheckoutOrderSummary = () => {
 						</p>
 					)}
 					{cart.map((item) => (
-						<OrderItem item={item} />
+						<OrderItem key={item.id} item={item} />
 					))}
 				</div>
 				<Separator />

@@ -5,15 +5,16 @@ import {
 } from "@/components/ui/accordion";
 import OrderTriggerContent from "@/components/orders/TriggerContent";
 import OrderContent from "@/components/orders/OrderContent";
+import { OrderInterface } from "@/types";
 
 interface OrderAccordionItemProps {
-	order: any; // TODO: create order type
+	order: OrderInterface;
 }
 
 const OrderAccordionItem = ({ order }: OrderAccordionItemProps) => {
 	return (
 		<AccordionItem
-			value={order.id.toString()}
+			value={order._id}
 			className="border rounded-lg px-6 mb-4"
 		>
 			<AccordionTrigger className="hover:no-underline select-text">
