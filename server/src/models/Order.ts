@@ -16,6 +16,7 @@ const OrderSchema = new Schema(
 					ref: "Product.variants",
 				},
 				name: { type: String, required: true },
+				image: { type: String, required: false },
 				quantity: { type: Number, default: 1 },
 				price: { type: Number, required: true },
 			},

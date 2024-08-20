@@ -13,7 +13,13 @@ export const register = async (
 ) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
-		return res.status(422).json({ errors: errors.array() });
+		const formattedErrors: Record<string, string> = {};
+		errors.array().forEach((error) => {
+			if (error.type === "field") {
+				formattedErrors[error.path] = error.msg;
+			}
+		});
+		return res.status(422).json({ errors: formattedErrors });
 	}
 
 	try {
@@ -27,7 +33,9 @@ export const register = async (
 		});
 
 		const savedUser = await newUser.save();
-		res.status(201).json(savedUser);
+		res.status(201).json({
+			user: savedUser,
+		});
 	} catch (err) {
 		next(err);
 	}
@@ -40,7 +48,7 @@ export const login = async (
 ) => {
 	try {
 		const user = await User.findOne({ email: req.body.email });
-		if (!user) throw new HttpError(404, "User not found!");
+		if (!user) throw new HttpError(401, "User not found!");
 
 		const validPassword = await bcrypt.compare(
 			req.body.password,
@@ -52,6 +60,8 @@ export const login = async (
 			{
 				_id: user._id.toString(),
 				isAdmin: user.isAdmin,
+				firstName: user.firstName,
+				lastName: user.lastName,
 			},
 			process.env.JWT_SECRET!,
 			{ expiresIn: "3d" },
