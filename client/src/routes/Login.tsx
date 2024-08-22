@@ -6,8 +6,9 @@ import FormField from "@/components/other/FormField";
 import { AuthContext } from "@/store/auth-context";
 import { useToast } from "@/components/ui/use-toast";
 
-function Login() {
-	const { login, isPending, loginErrorMsg, setErrorMsg } = useContext(AuthContext);
+const Login = () => {
+	const { login, isPending, loginErrorMsg, setErrorMsg } =
+		useContext(AuthContext);
 	const { toast } = useToast();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -87,6 +88,6 @@ function Login() {
 			</div> */}
 		</AuthLayout>
 	);
-}
+};
 
 export default Login;

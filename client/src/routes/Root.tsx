@@ -2,6 +2,7 @@ import Navbar from "@/components/navigation/Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import AuthContextProvider from "@/store/auth-context";
+import CartContextProvider from "@/store/cart-context";
 
 const Root = () => {
 	const { pathname } = useLocation();
@@ -9,14 +10,16 @@ const Root = () => {
 	return (
 		<>
 			<AuthContextProvider>
-				{!pathname.includes("/login") &&
-					!pathname.includes("/register") && <Navbar />}
+				<CartContextProvider>
+					{!pathname.includes("/login") &&
+						!pathname.includes("/register") && <Navbar />}
 
-				<main>
-					<Outlet />
-				</main>
+					<main>
+						<Outlet />
+					</main>
 
-				<Toaster />
+					<Toaster />
+				</CartContextProvider>
 			</AuthContextProvider>
 		</>
 	);

@@ -1,47 +1,10 @@
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { useContext } from "react";
 import OrderItem from "./OrderItem";
-
-const cartItems = [
-	{
-		id: 1,
-		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-		title: "iPhone 14 Pro",
-		price: 999.99,
-		quantity: 1,
-	},
-	{
-		id: 2,
-		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-		title: "Samsung Galaxy S23 Ultra",
-		price: 1199.99,
-		quantity: 1,
-	},
-	{
-		id: 3,
-		image: "https://www.abanista.com/wp-content/uploads/2022/08/15.jpg",
-		title: "Google Pixel 7 Pro",
-		price: 899.99,
-		quantity: 1,
-	},
-	{
-		id: 4,
-		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-		title: "iPhone 14 Pro",
-		price: 999.99,
-		quantity: 1,
-	},
-	{
-		id: 5,
-		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-		title: "Samsung Galaxy S23 Ultra",
-		price: 1199.99,
-		quantity: 1,
-	},
-];
+import { CartContext } from "@/store/cart-context";
 
 const CheckoutOrderSummary = () => {
-	const [cart, setCartItems] = useState(cartItems);
+	const { cart } = useContext(CartContext);
 	const totalPrice = cart.reduce(
 		(total, item) => total + item.price * item.quantity,
 		0
@@ -58,7 +21,13 @@ const CheckoutOrderSummary = () => {
 						</p>
 					)}
 					{cart.map((item) => (
-						<OrderItem key={item.id} item={item} />
+						<OrderItem
+							key={item.cartItemId}
+							image={item.image}
+							title={item.formattedName}
+							price={item.price}
+							quantity={item.quantity}
+						/>
 					))}
 				</div>
 				<Separator />

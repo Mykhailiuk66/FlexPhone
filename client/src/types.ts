@@ -85,6 +85,20 @@ export interface OrderInterface {
 	updatedAt?: string;
 }
 
-export interface AllOrdersInterface {
+export interface OrdersResponseInterface {
 	orders: OrderInterface[];
+}
+
+export interface ExtendedCartItemInterface {
+	cartItemId: string;
+	productId: string;
+	variantId: string;
+	formattedName: string;
+	image: string;
+	quantity: number;
+	price: number;
+}
+
+export interface CartResponseInterface {
+	cart: ExtendedCartItemInterface[];
 }

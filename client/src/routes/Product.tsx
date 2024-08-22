@@ -9,19 +9,28 @@ import SpecificationsList from "@/components/product/SpecificationList";
 import { fetchProduct } from "@/api/productsApi";
 import { formatAttributes } from "@/utils/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import ProductSkeleton from "@/components/product/ProductSkeleton";
+import { CartContext } from "@/store/cart-context";
 
 const Product = () => {
 	const { toast } = useToast();
+	const { addCartItem } = useContext(CartContext);
 	const { productId, variantId } = useParams();
-	const { data, isLoading, isError } = useQuery({
+	const {
+		data: product,
+		isLoading,
+		isError,
+	} = useQuery({
 		queryKey: ["product", productId],
 		queryFn: () => fetchProduct(productId!),
 		staleTime: 1000 * 60,
 		enabled: !!productId,
 	});
-	const variant = data?.variants.find((variant) => variant._id === variantId);
+
+	const variant = product?.variants.find(
+		(variant) => variant._id === variantId
+	);
 
 	useEffect(() => {
 		let message = "Product not found";
@@ -38,28 +47,32 @@ const Product = () => {
 		}
 	}, [isError, isLoading, toast, variant]);
 
-	if (isLoading || isError || !data || !variant) {
+	const handleAddToCart = () => {
+		addCartItem(product!, variant!._id);
+	};
+
+	if (isLoading || isError || !product || !variant) {
 		return <ProductSkeleton />;
 	}
 
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-16 sm:gap-10 md:gap-20 items-start w-full md:w-5/6 mx-auto p-6 md:p-12 pb-10 lg:pt-20 shadow-2xl h-full lg:min-h-[90vh] lg:h-fit">
 			<ProductImgCarousel
-				images={variant!.images.concat(data?.defaultImages)}
+				images={variant!.images.concat(product?.defaultImages)}
 			/>
 
 			<div className="grid gap-4">
 				<div className="ml-1">
-					<h1 className="text-3xl font-bold">{data?.name}</h1>
+					<h1 className="text-3xl font-bold">{product?.name}</h1>
 					<p className="text-muted-foreground">
 						{formatAttributes(variant!.attributes)}
 					</p>
 
 					<div className="flex items-center gap-2 flex-wrap mt-4">
-						{data?.variants.map((variant) => (
+						{product?.variants.map((variant) => (
 							<VariantButton
 								key={variant._id}
-								productId={data._id}
+								productId={product._id}
 								variantId={variant._id}
 								isSelected={variantId === variant._id}
 							>
@@ -70,13 +83,13 @@ const Product = () => {
 				</div>
 
 				<div className="shadow-md rounded-lg p-4 text-pretty">
-					<p>{data?.description}</p>
+					<p>{product?.description}</p>
 				</div>
 
 				<div className="grid gap-2 mt-4 shadow-md rounded-lg p-4 ">
 					<h3 className="text-lg font-semibold">Specifications</h3>
 					<SpecificationsList
-						specifications={data?.characteristics}
+						specifications={product?.characteristics}
 					/>
 				</div>
 
@@ -84,7 +97,7 @@ const Product = () => {
 					<span className="text-3xl font-bold">
 						${variant!.price}
 					</span>
-					<Button size="lg">
+					<Button size="lg" onClick={handleAddToCart}>
 						Add to Cart
 						<RiShoppingCart2Line className="ml-2 h-5 w-6" />
 					</Button>

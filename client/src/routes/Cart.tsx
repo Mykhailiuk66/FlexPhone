@@ -1,62 +1,11 @@
-import { useState } from "react";
+import { useContext } from "react";
 import CartItem from "@/components/cart/CartItem";
 import CartOrderSummary from "@/components/cart/CartOrderSummary";
+import { CartContext } from "@/store/cart-context";
 
-const cartItems = [
-	{
-		id: 1,
-		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-		title: "iPhone 14 Pro",
-		price: 999.99,
-		quantity: 1,
-	},
-	{
-		id: 2,
-		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-		title: "Samsung Galaxy S23 Ultra",
-		price: 1199.99,
-		quantity: 1,
-	},
-	{
-		id: 3,
-		image: "https://www.abanista.com/wp-content/uploads/2022/08/15.jpg",
-		title: "Google Pixel 7 Pro",
-		price: 899.99,
-		quantity: 1,
-	},
-	{
-		id: 4,
-		image: "https://cdn.dxomark.com/wp-content/uploads/medias/post-125834/Apple-iPhone-14_FINAL_featured-image-packshot-review.jpg",
-		title: "iPhone 14 Pro",
-		price: 999.99,
-		quantity: 1,
-	},
-	{
-		id: 5,
-		image: "https://files.foxtrot.com.ua/PhotoNew/img_0_60_9853_0_1_Yqq7p8.webp",
-		title: "Samsung Galaxy S23 Ultra",
-		price: 1199.99,
-		quantity: 1,
-	},
-];
+const Cart = () => {
+	const { cart } = useContext(CartContext);
 
-export default function Component() {
-	const [cart, setCart] = useState(cartItems);
-	const handleQuantityChange = (id: number, value: string) => {
-		if (parseInt(value) < 1 || isNaN(parseInt(value))) return;
-		setCart(
-			cart.map((item) =>
-				item.id === id ? { ...item, quantity: parseInt(value) } : item
-			)
-		);
-	};
-	const handleRemoveFromCart = (id: number) => {
-		setCart(cart.filter((item) => item.id !== id));
-	};
-	const totalPrice = cart.reduce(
-		(total, item) => total + item.price * item.quantity,
-		0
-	);
 	return (
 		<div className="container sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] shadow-2xl min-h-[93vh]">
 			<div className="space-y-6 py-8 px-6">
@@ -65,14 +14,13 @@ export default function Component() {
 				{cart.length > 0 &&
 					cart.map((item) => (
 						<CartItem
-							key={item.id}
-							id={item.id}
-							img={item.image}
-							title={item.title}
+							key={item.cartItemId}
+							productId={item.productId}
+							variantId={item.variantId}
+							image={item.image}
+							title={item.formattedName}
 							price={item.price}
 							quantity={item.quantity}
-							onQuantityChange={handleQuantityChange}
-							onRemove={handleRemoveFromCart}
 						/>
 					))}
 
@@ -82,7 +30,9 @@ export default function Component() {
 					</p>
 				)}
 			</div>
-			<CartOrderSummary cart={cart} totalPrice={totalPrice} />
+			<CartOrderSummary />
 		</div>
 	);
-}
+};
+
+export default Cart;
