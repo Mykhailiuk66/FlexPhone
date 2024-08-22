@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import Root from "./routes/Root";
 import Shop from "./routes/Shop";
@@ -9,6 +9,7 @@ import Orders from "./routes/Orders";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Checkout from "./routes/Checkout";
+import { queryClient } from "./api/http";
 
 const router = createBrowserRouter([
 	{
@@ -50,8 +51,6 @@ const router = createBrowserRouter([
 		],
 	},
 ]);
-
-const queryClient = new QueryClient();
 
 function App() {
 	return (

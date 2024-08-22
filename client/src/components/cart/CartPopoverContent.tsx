@@ -15,12 +15,15 @@ import { CartContext } from "@/store/cart-context";
 const CartPopoverContent = () => {
 	const { cart } = useContext(CartContext);
 
-	const totalPrice = cart.reduce(
-		(total, item) =>
-			total +
-			item.price * (Number.isNaN(item.quantity) ? 1 : item.quantity),
-		0
-	);
+	const totalPrice = cart
+		? cart.reduce(
+				(total, item) =>
+					total +
+					item.price *
+						(Number.isNaN(item.quantity) ? 1 : item.quantity),
+				0
+		  )
+		: 0;
 
 	return (
 		<Card className="shadow-none border-0">
@@ -30,7 +33,7 @@ const CartPopoverContent = () => {
 			</CardHeader>
 
 			<CardContent className="p-6 grid gap-4 max-h-80 overflow-y-auto">
-				{cart.length > 0 &&
+				{cart &&
 					cart.map((item) => (
 						<CartPopoverItem
 							key={item.cartItemId}
@@ -43,7 +46,7 @@ const CartPopoverContent = () => {
 						/>
 					))}
 
-				{cart.length === 0 && (
+				{cart && cart.length === 0 && (
 					<p className="text-muted-foreground text-xl font-bold h-1/3 align-center text-center">
 						Your cart is empty
 					</p>

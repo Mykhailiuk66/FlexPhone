@@ -1,4 +1,4 @@
-import { baseURL } from "@/api/axios";
+import { baseURL } from "@/api/http";
 import { OrderInterface } from "@/types";
 import { Link } from "react-router-dom";
 

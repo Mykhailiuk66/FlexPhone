@@ -4,7 +4,7 @@ import { FiTrash } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "@/store/cart-context";
-import { baseURL } from "@/api/axios";
+import { baseURL } from "@/api/http";
 
 interface CartItemProps {
 	productId: string;

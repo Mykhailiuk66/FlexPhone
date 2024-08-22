@@ -1,4 +1,4 @@
-import { baseURL } from "@/api/axios";
+import { baseURL } from "@/api/http";
 import { Button } from "@/components/ui/button";
 import { CartContext } from "@/store/cart-context";
 import { ProductInterface } from "@/types";

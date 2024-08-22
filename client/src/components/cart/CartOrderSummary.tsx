@@ -7,10 +7,9 @@ import { Link } from "react-router-dom";
 const CartOrderSummary = () => {
 	const { cart } = useContext(CartContext);
 
-	const totalPrice = cart.reduce(
-		(total, item) => total + item.price * item.quantity,
-		0
-	);
+	const totalPrice = cart
+		? cart.reduce((total, item) => total + item.price * item.quantity, 0)
+		: 0;
 
 	return (
 		<div className="border shadow-sm w-full h-full px-6 pt-7">
@@ -18,17 +17,18 @@ const CartOrderSummary = () => {
 				<h2 className="text-xl font-bold">Order Summary</h2>
 
 				<div className="space-y-2 pt-6">
-					{cart.map((item) => (
-						<div
-							key={item.cartItemId}
-							className="flex justify-between items-center gap-x-2.5"
-						>
-							<div className="flex items-center gap-4 font-medium">
-								<p>{item.formattedName}</p>
+					{cart &&
+						cart.map((item) => (
+							<div
+								key={item.cartItemId}
+								className="flex justify-between items-center gap-x-2.5"
+							>
+								<div className="flex items-center gap-4 font-medium">
+									<p>{item.formattedName}</p>
+								</div>
+								<p>{item.quantity}x</p>
 							</div>
-							<p>{item.quantity}x</p>
-						</div>
-					))}
+						))}
 				</div>
 				<div className="flex justify-between">
 					<p className="font-medium">Subtotal</p>
@@ -46,7 +46,7 @@ const CartOrderSummary = () => {
 					</p>
 				</div>
 
-				{cart.length > 0 && (
+				{cart && cart.length > 0 && (
 					<div className="pt-6">
 						<Button size="lg" className="w-full" asChild>
 							<Link to="/checkout">Proceed to Checkout</Link>

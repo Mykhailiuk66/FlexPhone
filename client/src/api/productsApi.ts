@@ -1,5 +1,5 @@
 import { ProductInterface, ProductsResponseInterface } from "@/types";
-import { axiosClient } from "./axios";
+import { axiosClient } from "./http";
 
 export const fetchProducts = async (
 	searchParams: URLSearchParams
