@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import Stripe from "stripe";
 
-import { formatProductVariantName } from "../utils/utils";
-import { emptyUserCart, getCartInfo } from "../utils/cartUtils";
+import { emptyUserCart, getUserCartInfo } from "../utils/cartUtils";
 import {
 	cancelReservation,
 	reserveProducts,
@@ -42,7 +41,7 @@ export const handleCheckout = async (
 			req.body;
 		const user_id = req.user._id;
 
-		const extendedCart = await getCartInfo(user_id.toString());
+		const extendedCart = await getUserCartInfo(user_id.toString());
 		if (!extendedCart) {
 			throw new HttpError(404, "Cart not found");
 		}
@@ -54,18 +53,11 @@ export const handleCheckout = async (
 		const order = new Order({
 			userId: user_id,
 			products: extendedCart.map((p) => {
-				const productImg =
-					p.product.variants[0].images[0] ||
-					p.product.defaultImages[0] ||
-					"";
 				return {
-					productId: p.product._id,
-					variantId: p.product.variants[0]._id,
-					name: formatProductVariantName(
-						p.product.name,
-						p.product.variants[0].attributes
-					),
-					image: productImg,
+					productId: p.productId,
+					variantId: p.variantId,
+					name: p.formattedName,
+					image: p.image,
 					quantity: p.quantity,
 					price: p.price,
 				};
@@ -101,10 +93,7 @@ export const handleCheckout = async (
 					price_data: {
 						currency: "usd",
 						product_data: {
-							name: formatProductVariantName(
-								p.product.name,
-								p.product.variants[0].attributes
-							),
+							name: p.formattedName,
 						},
 						unit_amount: p.price * 100,
 					},
