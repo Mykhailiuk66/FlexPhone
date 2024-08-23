@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProductImgCarouselInterface {
 	images: string[];
@@ -18,6 +18,10 @@ const ProductImgCarousel = ({ images }: ProductImgCarouselInterface) => {
 	const [selectedImage, setSelectedImage] = useState(
 		images.length > 0 ? images[0] : ""
 	);
+
+	useEffect(() => {
+		setSelectedImage(images.length > 0 ? images[0] : "");
+	}, [images]);
 
 	return (
 		<div className="grid gap-4 justify-items-center">

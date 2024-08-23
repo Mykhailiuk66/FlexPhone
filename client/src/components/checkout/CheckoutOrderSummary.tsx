@@ -5,22 +5,21 @@ import { CartContext } from "@/store/cart-context";
 
 const CheckoutOrderSummary = () => {
 	const { cart } = useContext(CartContext);
-	const totalPrice = cart.reduce(
-		(total, item) => total + item.price * item.quantity,
-		0
-	);
+	const totalPrice = cart
+		? cart.reduce((total, item) => total + item.price * item.quantity, 0)
+		: 0;
 
 	return (
 		<div className="border shadow-sm w-full h-full px-6 pt-7">
 			<div className="space-y-4 sticky top-24 pb-8">
 				<h2 className="text-xl font-bold">Order Summary</h2>
 				<div className="space-y-2">
-					{cart.length === 0 && (
+					{cart?.length === 0 && (
 						<p className="text-muted-foreground text-3xl font-bold mb-8 h-1/3 content-center text-center">
 							Your cart is empty
 						</p>
 					)}
-					{cart.map((item) => (
+					{cart?.map((item) => (
 						<OrderItem
 							key={item.cartItemId}
 							image={item.image}

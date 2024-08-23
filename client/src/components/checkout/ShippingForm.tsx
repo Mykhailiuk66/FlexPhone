@@ -20,12 +20,37 @@ const ShippingForm = ({ onFormChange }: ShippingFormProps) => {
 
 	return (
 		<form onChange={handleFormChange} className="grid gap-4">
-			<FormField id="firstName" type="text" label="First Name" />
-			<FormField id="lastName" type="text" label="Last Name" />
-			<FormField id="address" type="text" label="Address" />
-			<FormField id="city" type="text" label="City" />
-			<FormField id="country" type="text" label="Country" />
-			<FormField id="postalCode" type="text" label="Postal Code" />
+			<FormField
+				id="firstName"
+				type="text"
+				label="First Name"
+				name="firstName"
+			/>
+			<FormField
+				id="lastName"
+				type="text"
+				label="Last Name"
+				name="lastName"
+			/>
+			<FormField
+				id="address"
+				type="text"
+				label="Address"
+				name="address"
+			/>
+			<FormField id="city" type="text" label="City" name="city" />
+			<FormField
+				id="country"
+				type="text"
+				label="Country"
+				name="country"
+			/>
+			<FormField
+				id="postalCode"
+				type="text"
+				label="Postal Code"
+				name="postalCode"
+			/>
 		</form>
 	);
 };
