@@ -79,10 +79,10 @@ export const handleCheckout = async (
 		const reservationRes = await reserveProducts(extendedCart);
 		if (!reservationRes.success) {
 			return res
-				.status(200)
-				.json(
-					`The ordered quantity for ${reservationRes.productName} exceeds the available stock`
-				);
+				.status(400)
+				.json({
+					message: `The ordered quantity for ${reservationRes.productName} exceeds the available stock`,
+				});
 		}
 
 		const session = await stripe.checkout.sessions.create({

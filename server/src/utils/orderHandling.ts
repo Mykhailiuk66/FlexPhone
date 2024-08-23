@@ -40,14 +40,13 @@ export const reserveProducts = async (
 				success: false,
 				productName: formatProductVariantName(
 					product.name,
-					variant.attributes as unknown as Record<
+					variant.toJSON().attributes as unknown as Record<
 						string,
 						string | Record<string, string>
 					>
 				),
 			};
 		}
-
 		variant!.inStock -= p.quantity;
 
 		await product.save();
