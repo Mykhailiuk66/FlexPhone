@@ -19,7 +19,9 @@ export const getOrders = async (
 	next: NextFunction
 ) => {
 	try {
-		const orders = await Order.find({ userId: req.user._id });
+		const orders = await Order.find({ userId: req.user._id }).sort({
+			createdAt: -1,
+		});
 		res.status(200).json({ orders });
 	} catch (err) {
 		next(err);
@@ -86,8 +88,8 @@ export const handleCheckout = async (
 		const session = await stripe.checkout.sessions.create({
 			mode: "payment",
 			client_reference_id: order._id.toString(),
-			success_url: `${req.protocol}://${req.get("host")}/orders`,
-			cancel_url: `${req.protocol}://${req.get("host")}/orders`,
+			success_url: `${process.env.CLIENT_URL}/orders`,
+			cancel_url: `${process.env.CLIENT_URL}/orders`,
 			line_items: extendedCart.map((p) => {
 				return {
 					price_data: {
@@ -105,7 +107,7 @@ export const handleCheckout = async (
 		await order.save();
 		await emptyUserCart(user_id.toString());
 
-		res.status(200).json({ session });
+		res.status(200).json({ url: session.url });
 	} catch (err) {
 		next(err);
 	}
