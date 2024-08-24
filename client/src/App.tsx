@@ -10,6 +10,7 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Checkout from "./routes/Checkout";
 import { queryClient } from "./api/http";
+import Home from "./routes/Home";
 
 const router = createBrowserRouter([
 	{
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <div>Home</div>,
+				element: <Home />,
 			},
 			{
 				path: "/shop",

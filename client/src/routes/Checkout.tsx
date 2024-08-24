@@ -13,10 +13,13 @@ import { useMutation } from "@tanstack/react-query";
 import * as cartApi from "@/api/cartApi";
 import { useToast } from "@/components/ui/use-toast";
 import { AxiosError } from "axios";
+import { AuthContext } from "@/store/auth-context";
+import { Navigate } from "react-router-dom";
 
 const Checkout = () => {
 	const { toast } = useToast();
 	const { cart, emptyCart } = useContext(CartContext);
+	const { user } = useContext(AuthContext);
 	const [shippingInfo, setShippingInfo] = useState<ShippingInfoInterface>({
 		firstName: "",
 		lastName: "",
@@ -29,13 +32,11 @@ const Checkout = () => {
 	const { mutateAsync } = useMutation({
 		mutationFn: cartApi.checkoutCart,
 		onSuccess: (data) => {
-			console.log(data);
 			emptyCart();
 			window.location.href = data.url!;
 		},
 		onError: (error: AxiosError) => {
 			const data: CheckoutResponseInterface = error.response?.data || {};
-      console.log(data);
 			toast({
 				title: "Error",
 				description:
@@ -75,8 +76,9 @@ const Checkout = () => {
 
 	return (
 		<>
-			<div className="container sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_4fr] shadow-2xl min-h-[93vh]">
-				<div className="space-y-6 py-8 px-6">
+			{!user && <Navigate to="/login" />}
+			<div className="container px-4 sm:px-8 sm:pr-0 grid grid-cols-1 sm:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_4fr] shadow-2xl min-h-[93vh] pb-8 sm:pb-0">
+				<div className="space-y-6 py-8 px-0 sm:px-6">
 					<h1 className="text-3xl font-bold mb-4">Checkout</h1>
 					<Card className="h-fit">
 						<CardHeader>

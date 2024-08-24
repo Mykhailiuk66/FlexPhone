@@ -30,7 +30,7 @@ const ProductDescription = ({
 	return (
 		<div className="grid gap-4">
 			<div className="ml-1">
-				<h1 className="text-3xl font-bold">{product?.name}</h1>
+				<h1 className="text-2xl font-bold">{product?.name}</h1>
 				<p className="text-muted-foreground">
 					{formatAttributes(variant!.attributes)}
 				</p>
@@ -58,7 +58,7 @@ const ProductDescription = ({
 				<SpecificationsList specifications={product?.characteristics} />
 			</div>
 
-			<div className="flex items-center justify-between p-4 pt-6 h-auto md:h-20 justify-items-end">
+			<div className="flex items-center justify-between px-0 sm:px-4 pb-4 pt-6 h-auto md:h-20 justify-items-end">
 				<span className="text-3xl font-bold">${variant!.price}</span>
 				<Button size="lg" onClick={handleAddToCart}>
 					Add to Cart

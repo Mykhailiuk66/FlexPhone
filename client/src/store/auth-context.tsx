@@ -82,7 +82,6 @@ export default function AuthContextProvider({
 			navigate("/login");
 		},
 		onError: (error: AxiosError) => {
-			console.log(error);
 			const respData = error.response?.data as {
 				errors: Record<string, string>;
 			};

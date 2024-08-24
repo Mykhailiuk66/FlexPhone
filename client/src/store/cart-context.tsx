@@ -84,11 +84,12 @@ export default function CartContextProvider({
 			} else if (data && (!cart || cart?.length === 0)) {
 				setCart(data.cart);
 			}
+			queryClient.setQueryData(["cart"], null);
 		}
 	}, [cart, data, user]);
 
 	useEffect(() => {
-		if (user && cart && cart.length > 0) {
+		if (user && cart) {
 			const updateCartTimeout = setTimeout(async () => {
 				const formattedCart = cart.map((item) => {
 					return {
@@ -111,7 +112,6 @@ export default function CartContextProvider({
 		quantity: number
 	) => {
 		if (quantity <= 0) return;
-		// if (quantity > 10) return;
 
 		if (!user) {
 			const localCart = getLocalCart();

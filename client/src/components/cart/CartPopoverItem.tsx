@@ -52,7 +52,7 @@ const CartPopoverItem = ({
 			</Link>
 			<div className="grid gap-1">
 				<Link to={`/shop/${productId}/${variantId}`}>
-					<h4 className="font-medium">{title}</h4>
+					<h4 className="font-medium line-clamp-2">{title}</h4>
 				</Link>
 			</div>
 			<div className="grid gap-2">
