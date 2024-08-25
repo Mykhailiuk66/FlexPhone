@@ -8,7 +8,7 @@ interface OrderContentProps {
 
 const OrderContent = ({ order }: OrderContentProps) => {
 	return (
-		<div className="px-6 py-4">
+		<div className="sm:px-6 py-4">
 			<div className="grid gap-4">
 				{order.products.map((product, index) => (
 					<div
