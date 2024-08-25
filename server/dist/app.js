@@ -1,0 +1,31 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const cors_1 = __importDefault(require("cors"));
+require("./config/loadEnv");
+const connectToDB_1 = require("./config/connectToDB");
+const errorHandler_1 = __importDefault(require("./middleware/errorHandler"));
+const auth_1 = __importDefault(require("./routes/auth"));
+const products_1 = __importDefault(require("./routes/products"));
+const cart_1 = __importDefault(require("./routes/cart"));
+const orders_1 = __importDefault(require("./routes/orders"));
+const orders_2 = require("./controllers/orders");
+const app = (0, express_1.default)();
+(0, connectToDB_1.connectToDB)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use("/images", express_1.default.static(path_1.default.join(__dirname, "images")));
+app.use("/api/auth", auth_1.default);
+app.use("/api/products", products_1.default);
+app.use("/api/cart", cart_1.default);
+app.use("/api/orders", orders_1.default);
+app.post("/webhook-checkout", express_1.default.raw({ type: "application/json" }), orders_2.webhookCheckout);
+app.use(errorHandler_1.default);
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Express server is listening on port ${port}`);
+});
