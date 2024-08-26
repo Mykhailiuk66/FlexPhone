@@ -28,25 +28,39 @@ export const PriceRangeFilter = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		let min = parseFloat(event.target.value);
-		if (min < 0) min = 0;
-		setSearchParams((searchParams) => {
-			const max = searchParams.get("maxPrice");
-			searchParams.set("minPrice", min.toString());
-			if (max && min > parseFloat(max)) searchParams.delete("maxPrice");
-			return searchParams;
-		});
+		const min = parseFloat(event.target.value);
+		if (min < 0 || isNaN(min)) {
+			setSearchParams((searchParams) => {
+				searchParams.delete("minPrice");
+				return searchParams;
+			});
+		} else {
+			setSearchParams((searchParams) => {
+				const max = searchParams.get("maxPrice");
+				searchParams.set("minPrice", min.toString());
+				if (max && min > parseFloat(max))
+					searchParams.delete("maxPrice");
+				return searchParams;
+			});
+		}
 	};
 
 	const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		let max = parseFloat(event.target.value);
-		if (max < 0) max = 0;
-		setSearchParams((searchParams) => {
-			const min = searchParams.get("minPrice");
-			searchParams.set("maxPrice", max.toString());
-			if (min && max < parseFloat(min)) searchParams.set("minPrice", "0");
-			return searchParams;
-		});
+		const max = parseFloat(event.target.value);
+		if (max <= 0 || isNaN(max)) {
+			setSearchParams((searchParams) => {
+				searchParams.delete("maxPrice");
+				return searchParams;
+			});
+		} else {
+			setSearchParams((searchParams) => {
+				const min = searchParams.get("minPrice");
+				searchParams.set("maxPrice", max.toString());
+				if (min && max < parseFloat(min))
+					searchParams.set("minPrice", "0");
+				return searchParams;
+			});
+		}
 	};
 
 	return (
@@ -111,11 +125,13 @@ export const CheckboxFilter = ({
 						name={fieldName}
 						value={item}
 						checked={
-							searchParams.getAll(fieldName).find((value) => {
-								return (
-									value.toLowerCase() === item.toLowerCase()
-								);
-							}) !== undefined
+							searchParams
+								.getAll(fieldName)
+								.find(
+									(value) =>
+										value.toLowerCase() ===
+										item.toLowerCase()
+								) !== undefined
 						}
 						onCheckedChange={(checked) =>
 							handleChange(checked, item)

@@ -30,11 +30,11 @@ const ProductImgCarousel = ({ images }: ProductImgCarouselInterface) => {
 				alt="Product Image"
 				width={500}
 				height={500}
-				className="aspect-square w-fill rounded-lg object-cover p-4"
+				className="w-fill rounded-lg object-contain p-4 h-[600px]"
 			/>
 			<Separator />
-			<div className="w-5/6">
-				<Carousel opts={{ loop: false, align: "start" }}>
+			<div className="w-5/6 select-none">
+				<Carousel opts={{ loop: true, align: "start" }}>
 					<CarouselContent className="-ml-2 md:-ml-4">
 						{images.map((url, i) => (
 							<CarouselItem
@@ -52,7 +52,7 @@ const ProductImgCarousel = ({ images }: ProductImgCarouselInterface) => {
 									className={cn(
 										selectedImage === url &&
 											"border border-primary/30 shadow-2xl",
-										"cursor-pointer aspect-square w-full rounded-lg object-cover p-4"
+										"cursor-pointer aspect-square w-full rounded-lg object-contain p-4"
 									)}
 								/>
 							</CarouselItem>

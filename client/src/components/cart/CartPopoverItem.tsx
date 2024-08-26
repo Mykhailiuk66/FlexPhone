@@ -44,10 +44,9 @@ const CartPopoverItem = ({
 				<img
 					src={`${baseURL}/${image}`}
 					alt="Product Image"
-					width={80}
-					height={80}
-					className="rounded-md object-cover"
-					style={{ aspectRatio: "80/80", objectFit: "cover" }}
+          width={80}
+          height={80}
+					className="rounded-md object-contain h-20 mx-auto"
 				/>
 			</Link>
 			<div className="grid gap-1">

@@ -23,11 +23,7 @@ const OrderContent = ({ order }: OrderContentProps) => {
 								alt={product.name}
 								width={80}
 								height={80}
-								className="rounded-md object-cover"
-								style={{
-									aspectRatio: "80/80",
-									objectFit: "cover",
-								}}
+								className="rounded-md object-contain h-16"
 							/>
 						</Link>
 						<div>
