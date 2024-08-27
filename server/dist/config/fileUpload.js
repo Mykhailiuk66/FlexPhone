@@ -5,12 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const HttpError_1 = __importDefault(require("../exeptions/HttpError"));
 const fileStorage = multer_1.default.diskStorage({
     destination(req, file, callback) {
-        const path = `./images`;
-        fs_1.default.mkdirSync(path, { recursive: true });
-        callback(null, "images/");
+        const dest_path = path_1.default.join(__dirname, "..", "images");
+        fs_1.default.mkdirSync(dest_path, { recursive: true });
+        callback(null, dest_path);
     },
     filename(req, file, callback) {
         callback(null, Date.now() + "-" + file.originalname);

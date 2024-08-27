@@ -34,7 +34,7 @@ export const getProductsVariants = async (
 			query["characteristics.Brand"] = { $in: brands };
 		}
 
-		const perPage = 12;
+		const perPage = 15;
 		const skip = (currentPage - 1) * perPage;
 		const products = await Product.aggregate([
 			{ $unwind: "$variants" },
@@ -127,7 +127,8 @@ export const createProduct = async (
 		let defaultImages = [];
 		if (req.files) {
 			defaultImages = JSON.parse(JSON.stringify(req.files)).map(
-				(file: Express.Multer.File) => file.path.replace(/\\/g, "/")
+				(file: Express.Multer.File) =>
+					file.path.replace("..\\", "").replace(/\\/g, "/")
 			);
 		}
 
@@ -160,7 +161,7 @@ export const updateProduct = async (
 		let defaultImages = req.body.defaultImages || [];
 		if (req.files) {
 			defaultImages = JSON.parse(JSON.stringify(req.files)).map(
-				(file: Express.Multer.File) => file.path.replace(/\\/g, "/")
+				(file: Express.Multer.File) => "images/" + file.filename
 			);
 		}
 

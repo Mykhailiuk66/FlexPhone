@@ -21,7 +21,7 @@ const createProductVariant = async (req, res, next) => {
         const { attributes, price, inStock } = req.body;
         let images = [];
         if (req.files) {
-            images = JSON.parse(JSON.stringify(req.files)).map((file) => file.path.replace(/\\/g, "/"));
+            images = JSON.parse(JSON.stringify(req.files)).map((file) => "images/" + file.filename);
         }
         const newVariant = {
             attributes: { ...attributes },

@@ -1,15 +1,16 @@
 import multer from "multer";
 import { Request } from "express";
 import fs from "fs";
+import path from "path";
 
 import HttpError from "../exeptions/HttpError";
 
 const fileStorage = multer.diskStorage({
 	destination(req, file, callback) {
-		const path = `./images`;
-		fs.mkdirSync(path, { recursive: true });
+		const dest_path = path.join(__dirname, "..", "images");
+		fs.mkdirSync(dest_path, { recursive: true });
 
-		callback(null, "images/");
+		callback(null, dest_path);
 	},
 	filename(req, file, callback) {
 		callback(null, Date.now() + "-" + file.originalname);

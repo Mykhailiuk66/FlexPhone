@@ -24,7 +24,7 @@ export const createProductVariant = async (
 		let images = [];
 		if (req.files) {
 			images = JSON.parse(JSON.stringify(req.files)).map(
-				(file: Express.Multer.File) => file.path.replace(/\\/g, "/")
+				(file: Express.Multer.File) => "images/" + file.filename
 			);
 		}
 
