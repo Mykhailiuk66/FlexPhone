@@ -1,7 +1,7 @@
 import {
 	PriceRangeFilter,
 	CheckboxFilter,
-} from "@/components/shop/FilterSection";
+} from "@/components/shop/Filters";
 import { cn } from "@/lib/utils";
 
 const ramOptions = ["4 GB", "6 GB", "8 GB", "12 GB", "16 GB"];

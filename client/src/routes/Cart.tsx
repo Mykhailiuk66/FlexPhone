@@ -43,7 +43,7 @@ const Cart = () => {
 					})}
 
 				{!isLoading && !isError && cart && cart.length === 0 && (
-					<p className="text-muted-foreground text-3xl font-bold mb-8 h-1/3 content-center text-center">
+					<p className="text-muted-foreground text-3xl font-bold mb-8 pt-16 h-1/3 content-center text-center">
 						Your cart is empty
 					</p>
 				)}

@@ -11,6 +11,8 @@ import Register from "./routes/Register";
 import Checkout from "./routes/Checkout";
 import { queryClient } from "./api/http";
 import Home from "./routes/Home";
+import PrivateRoute from "./components/auth/PrivateRoute";
+import NotFound from "./routes/NotFound";
 
 const router = createBrowserRouter([
 	{
@@ -39,7 +41,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/orders",
-				element: <Orders />,
+				element: (
+					<PrivateRoute>
+						<Orders />
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "/login",
@@ -48,6 +54,10 @@ const router = createBrowserRouter([
 			{
 				path: "/register",
 				element: <Register />,
+			},
+			{
+				path: "*",
+				element: <NotFound />,
 			},
 		],
 	},

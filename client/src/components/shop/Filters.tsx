@@ -108,6 +108,9 @@ export const CheckboxFilter = ({
 
 	const handleChange = (checked: CheckedState, value: string) => {
 		setSearchParams((searchParams) => {
+			if (fieldName === "brand") {
+				searchParams.delete("page");
+			}
 			if (checked) {
 				searchParams.append(fieldName, value);
 			} else {

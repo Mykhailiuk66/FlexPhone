@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import { loginUser, registerUser } from "../api/authApi";
 import { useMutation } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
@@ -37,7 +37,19 @@ interface AuthContextInterface {
 export default function AuthContextProvider({
 	children,
 }: AuthContextProviderProps) {
-	const [user, setUser] = useState<UserInterface | null>(null);
+	const [user, setUser] = useState<UserInterface | null>(() => {
+		const authToken = localStorage.getItem("authToken");
+		if (authToken) {
+			const decodedToken = jwtDecode(authToken) as UserInterface;
+			const currentDate = new Date();
+			const isExpired = decodedToken.exp * 1000 < currentDate.getTime();
+			if (!isExpired) {
+				return decodedToken;
+			}
+		}
+		return null;
+	});
+
 	const [loginErrorMsg, setErrorMsg] = useState<string | null>(null);
 	const [registerErrorMsgs, setRegisterErrorMsgs] = useState<Record<
 		string,
@@ -57,6 +69,7 @@ export default function AuthContextProvider({
 			const { token } = respData;
 			setUser(jwtDecode(token));
 			localStorage.setItem("authToken", token);
+			console.log(window.history);
 			navigate("/shop");
 		},
 		onError: (error: AxiosError) => {
@@ -107,17 +120,6 @@ export default function AuthContextProvider({
 	}: RegisterParams) => {
 		return registerMutation({ firstName, lastName, email, password });
 	};
-
-	useEffect(() => {
-		const authToken = localStorage.getItem("authToken");
-		if (!authToken) return;
-		const decodedToken = jwtDecode(authToken) as UserInterface;
-		const currentDate = new Date();
-		const isExpired = decodedToken.exp * 1000 < currentDate.getTime();
-		if (!isExpired) {
-			setUser(decodedToken);
-		}
-	}, []);
 
 	const contextValue: AuthContextInterface = {
 		user,

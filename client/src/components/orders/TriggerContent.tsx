@@ -1,5 +1,6 @@
 import { OrderInterface } from "@/types";
 import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 
 interface OrderTriggerContentProps {
 	order: OrderInterface;
@@ -28,11 +29,12 @@ const OrderTriggerContent = ({ order }: OrderTriggerContentProps) => {
 							? "destructive"
 							: "outline"
 					}
-					className={
+					className={cn(
+						order.status === "paid" ? "border border-primary" : "",
 						order.status === "shipped"
-							? "border border-primary"
+							? "border border-primary text-primary"
 							: ""
-					}
+					)}
 				>
 					{order.status}
 				</Badge>

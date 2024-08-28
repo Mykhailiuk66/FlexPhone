@@ -1,12 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoPhonePortrait, IoPhonePortraitOutline } from "react-icons/io5";
+import { AuthContext } from "@/store/auth-context";
 
 interface AuthFormProps {
 	children: React.ReactNode;
 }
 
 const AuthLayout = ({ children }: AuthFormProps) => {
+	const navigate = useNavigate();
+	const { user } = useContext(AuthContext);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/", { replace: true });
+		}
+	}, [user, navigate]);
+
 	return (
 		<div className="md:m-4 md:border rounded-lg mx-auto md:shadow-2xl flex justify-start flex-col min-h-[97vh] items-center px-5 sm:px-6 lg:px-8 mb-10">
 			<div className="mt-10 md:mt-12 mb-12">
