@@ -26,11 +26,11 @@ const UserDropdown = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem>
+				<DropdownMenuItem asChild>
 					<Link to="/orders">Orders</Link>
 				</DropdownMenuItem>
 				{user?.isAdmin && (
-					<DropdownMenuItem>
+					<DropdownMenuItem asChild>
 						<Link to="/admin">Admin Panel</Link>
 					</DropdownMenuItem>
 				)}
